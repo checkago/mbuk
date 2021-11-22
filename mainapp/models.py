@@ -100,8 +100,10 @@ class Employee(models.Model):
         (FEMALE, 'Женский')
     )
     MARRIED_STATUS_CHOICE = (
-        (MALE, 'Мужской'),
-        (FEMALE, 'Женский')
+        (NOT_MARRIED, 'Не женат/Не замужем'),
+        (MARRIED, 'Женат/Замужем'),
+        (WIDOW, 'Вдовец/вдова'),
+        (DIVORCED, 'Разведен/Разведена')
     )
     """Имя и Фамилия беруться из модели User"""
     i_middle_name = models.CharField(max_length=150, verbose_name='Отчество')
@@ -128,12 +130,7 @@ class Employee(models.Model):
     place_of_stay_address = models.ForeignKey('Address', blank=True, on_delete=models.CASCADE,
                                               verbose_name='Адрес временной регистрации')
 
-    # СВЕДЕНИЯ О РАБОТЕ
-    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
-    branch_office = models.ForeignKey(BranchOffice, on_delete=models.SET_NULL, null=True, verbose_name='Филиал')
-    salary = models.DecimalField(max_digits=6, decimal_places=2, blank=True, verbose_name='Оклад')
-    adopted_date = models.DateField(auto_now_add=True, blank=True, verbose_name='Принят')
-    dismissed_date = models.DateField(blank=True, verbose_name='Дата увольнения')
+    # СТАЖ и ПФР
     experience_before = models.IntegerField(max_length=2, verbose_name='Предыдущий стаж')
     digital_work_book = models.BooleanField(default=False, verbose_name='"Электронная')
     paper_work_book = models.BooleanField(default=False, verbose_name='Бумажная')
