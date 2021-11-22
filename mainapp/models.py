@@ -85,9 +85,12 @@ class Position(models.Model):
 class Employee(models.Model):
     # Связь с пользователем
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
+    phone = models.CharField(max_length=18, verbose_name='Номер телефона')
+    whatsapp = models.BooleanField(default=True, verbose_name='Есть whatsapp')
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
     branch_office = models.ForeignKey(BranchOffice, on_delete=models.SET_NULL, null=True, verbose_name='Филиал')
     salary = models.DecimalField(max_digits=6, decimal_places=2, blank=True, verbose_name='Оклад')
+    card = models.OneToOneField(blank=True, on_delete=models.CASCADE, verbose_name='Карточка сотрудника')
 
     # Персональные данные
     MALE = 'Мужской'
