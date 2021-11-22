@@ -1,6 +1,5 @@
 from datetime import datetime
-
-import blank as blank
+from django.conf import settings
 from django.db import models
 from utils import upload_function
 
@@ -16,7 +15,7 @@ class Organization(models.Model):
     okpo = models.CharField(max_length=8, verbose_name='ОКПО')
     ogrn = models.CharField(max_length=13, verbose_name='ОГРН')
     registration_date = models.DateField(verbose_name='Дата регистрации')
-    bank_details = models.ForeignKey('BankDetails', verbose_name='Баковские реквизиты')
+    bank_details = models.ForeignKey('BankDetails', on_delete=models.CASCADE, verbose_name='Баковские реквизиты')
 
     class Meta:
         verbose_name = 'Организация'
@@ -43,7 +42,7 @@ class BankDetails(models.Model):
 
 
 class BranchOffice(models.Model):
-    organization = models.ForeignKey(Organization, verbose_name='Организация')
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, verbose_name='Организация')
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='childs',
                                null=True, blank=True, verbose_name='Подчиняется')
     full_name = models.CharField(max_length=250, verbose_name='Полное наименование')
@@ -52,9 +51,8 @@ class BranchOffice(models.Model):
                                 null=True, verbose_name='Руководитель подразделения')
     email = models.EmailField(verbose_name='Почта')
     phone = models.CharField(max_length=18, verbose_name='Номер телефона')
-    address = models.ForeignKey('Address', verbose_name='Адрес')
-    departments = models.ManyToManyField('Department', blank=True, null=True, on_delete=models.CASCADE,
-                                         verbose_name='Отделы')
+    address = models.ForeignKey('Address', on_delete=models.CASCADE, verbose_name='Адрес')
+    departments = models.ManyToManyField('Department', blank=True, null=True, verbose_name='Отделы')
 
     class Meta:
         verbose_name = 'Филиал'
@@ -65,7 +63,7 @@ class Department(models.Model):
     parent_branch = models.ForeignKey(BranchOffice, on_delete=models.CASCADE, )
     name = models.CharField(max_length=250, verbose_name='Наименование')
     manager = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True, verbose_name='Руководитель')
-    employees = models.ManyToManyField('Employee', on_delete=models.SET_NULL, null=True, verbose_name='Сотрудники')
+    employees = models.ManyToManyField('Employee', verbose_name='Сотрудники')
     email = models.EmailField(blank=True, verbose_name='Почта')
     phone = models.CharField(max_length=18, blank=True, verbose_name='Номер телефона')
 
@@ -125,8 +123,10 @@ class Employee(models.Model):
     sex = models.CharField(max_length=10, blank=True, null=True, choices=SEX_CHOICE, verbose_name='Пол')
     marital_status = models.CharField(max_length=10, blank=True, null=True, choices=MARRIED_STATUS_CHOICE,
                                       verbose_name='Семейное положение')
-    main_address = models.ForeignKey(Address, blank=True, verbose_name='Адрес постоянной регистрации')
-    place_of_stay_address = models.ForeignKey('Address', blank=True, verbose_name='Адрес временной регистрации')
+    main_address = models.ForeignKey('Address', blank=True, on_delete=models.CASCADE,
+                                     verbose_name='Адрес постоянной регистрации')
+    place_of_stay_address = models.ForeignKey('Address', blank=True, on_delete=models.CASCADE,
+                                              verbose_name='Адрес временной регистрации')
 
     # СВЕДЕНИЯ О РАБОТЕ
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
@@ -142,7 +142,8 @@ class Employee(models.Model):
 
     # ДОКУМЕНТЫ
     # Заявление о приеме на работу
-    job_application = models.ForeignKey()
+    job_application = models.ForeignKey('Application', on_delete=models.SET_NULL, blank=True, null=True,
+                                        verbose_name='Заявление о приеме на работу')
     # Приказ о приеме на работу
     adopted_order = models.ForeignKey('Order', on_delete=models.SET_NULL, blank=True, null=True,
                                       verbose_name='Прием на работу')
