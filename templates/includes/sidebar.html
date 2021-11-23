@@ -4,7 +4,9 @@
       <a class="navbar-brand m-0" 
          href="https://appseed.us/admin-dashboards/flask-dashboard-material-design" target="_blank">
         <img src="/static/assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold text-white">Material Dashboard 2</span>
+          {% for Organization in organization %}
+        <span class="ms-1 font-weight-bold text-white">{{ Organization }}</span>
+          {% endfor %}
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
@@ -16,7 +18,7 @@
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">dashboard</i>
             </div>
-            <span class="nav-link-text ms-1">Dashboard</span>
+            <span class="nav-link-text ms-1">Рабочий стол</span>
           </a>
         </li>
         <li class="nav-item">
@@ -25,7 +27,7 @@
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
-            <span class="nav-link-text ms-1">Tables</span>
+            <span class="nav-link-text ms-1">Организация</span>
           </a>
         </li>
         <li class="nav-item">
@@ -34,7 +36,7 @@
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt_long</i>
             </div>
-            <span class="nav-link-text ms-1">Billing</span>
+            <span class="nav-link-text ms-1">Филиалы</span>
           </a>
         </li>
         <li class="nav-item">
@@ -43,7 +45,7 @@
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">view_in_ar</i>
             </div>
-            <span class="nav-link-text ms-1">Virtual Reality</span>
+            <span class="nav-link-text ms-1">Отделы</span>
           </a>
         </li>
         <li class="nav-item">
@@ -51,36 +53,19 @@
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
             </div>
-            <span class="nav-link-text ms-1">RTL</span>
+            <span class="nav-link-text ms-1">Сотрудники</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-white {% if 'notifications' in segment %} active bg-gradient-primary {% endif %}" 
-             href="/notifications.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">notifications</i>
-            </div>
-            <span class="nav-link-text ms-1">Notifications</span>
-          </a>
-        </li>
+        <hr>
         <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white {% if 'profile' in segment %} active bg-gradient-primary {% endif %}" 
-             href="/profile.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">person</i>
-            </div>
-            <span class="nav-link-text ms-1">Profile</span>
-          </a>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Мой профиль</h6>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white " href="{% url 'logout' %}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">directions_run</i>
             </div>
-            <span class="nav-link-text ms-1">Logout</span>
+            <span class="nav-link-text ms-1">Выход</span>
           </a>
         </li>
       </ul>
@@ -89,7 +74,7 @@
       <div class="mx-3">
         <a class="btn bg-gradient-primary mt-4 w-100" 
            target="_blank" 
-           href="https://appseed.us/admin-dashboards/django-dashboard-material-pro" type="button">Upgrade to pro</a>
+           href="https://appseed.us/admin-dashboards/django-dashboard-material-pro" type="button">Ссылка на что то</a>
       </div>
     </div>
   </aside>

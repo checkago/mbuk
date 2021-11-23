@@ -1,13 +1,17 @@
 from django import views
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect
 from mainapp.models import Organization, BranchOffice, Department, Employee, BankAccount
 from guide.models import Bank, Address
+from mainapp.forms import LoginForm, RegistrationForm
 
 
-class IndexView(views.View):
+class IndexView(LoginRequiredMixin, views.View):
 
     def get(self, request, *args, **kwargs):
-        organization = Organization.objects.all()
+        organization = Organization.objects.all().filter(primary=True)
         branch_offices = BranchOffice.objects.all()
         departments = Department.objects.all()
         bank_accounts = BankAccount.objects.all()
@@ -19,7 +23,8 @@ class IndexView(views.View):
             'bank_accounts': bank_accounts,
             'employees': employees
         }
-        return render(request, 'index.html', context)
+        return render(request, 'home/index.html', context)
+
 
 class LoginView(views.View):
 
@@ -28,7 +33,7 @@ class LoginView(views.View):
         context = {
             'form': form
         }
-        return render(request, 'auth/login.html', context)
+        return render(request, 'accounts/login.html', context)
 
     def post(self, request, *args, **kwargs):
         form = LoginForm(request.POST or None)
@@ -38,12 +43,12 @@ class LoginView(views.View):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
-                return HttpResponseRedirect('/catalog')
+                return HttpResponseRedirect('/')
 
         context = {
             'form': form
         }
-        return render(request, 'sign-in.html', context)
+        return render(request, 'accounts/login.html', context)
 
 
 class RegistrationView(views.View):
@@ -53,7 +58,7 @@ class RegistrationView(views.View):
         context = {
             'form': form
         }
-        return render(request, 'auth/registration.html', context)
+        return render(request, 'accounts/register.html', context)
 
     def post(self, request, *args, **kwargs):
         form = RegistrationForm(request.POST or None)

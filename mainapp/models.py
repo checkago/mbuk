@@ -17,6 +17,7 @@ class Organization(models.Model):
     ogrn = models.CharField(max_length=13, verbose_name='ОГРН')
     registration_date = models.DateField(verbose_name='Дата регистрации')
     bank_details = models.ForeignKey('BankAccount', on_delete=models.CASCADE, verbose_name='Баковские реквизиты')
+    primary = models.BooleanField(default=False, verbose_name='Основная')
 
     class Meta:
         verbose_name = 'Организация'
