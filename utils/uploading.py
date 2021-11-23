@@ -11,7 +11,7 @@ class ImageUploadHelper:
             'upload_postfix': 'employee_images'
         },
         'Organization': {
-            'field': 'name',
+            'field': 'short_name',
             'upload_postfix': 'organization_images'
         },
     }
