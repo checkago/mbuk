@@ -49,18 +49,6 @@ class InternalOrderOrganization(models.Model):
         return f"№{self.number} от {self.date} - {self.organization}"
 
 
-class ApplicationForEmployment(models.Model):
-    interval_number = models.CharField(max_length=10, blank=True, verbose_name='Внутренний номер')
-    date = models.DateField(verbose_name='Дата')
-    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
-    application_scan = models.FileField(upload_to=file_upload_function,)
-
-    class Meta:
-        verbose_name = 'Заявление на работу'
-        verbose_name_plural = 'Заявления на работу'
-
-    def __str__(self):
-        return f"№{self.interval_number} от {self.date} на должность {self.position}"
 
 
 

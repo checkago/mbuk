@@ -1,6 +1,6 @@
 from django.db import models
 from utils import image_upload_function, file_upload_function
-from mainapp.models import Employee
+from mainapp.models import Employee, Position
 
 
 class EmployeeAddress(models.Model):
@@ -97,4 +97,80 @@ class EmployeeCard(models.Model):
 
     def __str__(self):
         return f"Карточка {self.r_last_name} {self.r_first_name}"
+
+
+class ApplicationForEmployment(models.Model):
+    internal_number = models.CharField(max_length=10, blank=True, verbose_name='Внутренний номер')
+    date = models.DateField(verbose_name='Дата')
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
+    application_scan = models.FileField(upload_to=file_upload_function,)
+
+    class Meta:
+        verbose_name = 'Заявление на работу'
+        verbose_name_plural = 'Заявления на работу'
+
+    def __str__(self):
+        return f"прием №{self.internal_number} от {self.date} на должность {self.position}"
+
+
+class ApplicationForTransfer(models.Model):
+    internal_number = models.CharField(max_length=10, blank=True, verbose_name='Внутренний номер')
+    date = models.DateField(verbose_name='Дата')
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='На должность')
+    application_scan = models.FileField(upload_to=file_upload_function,)
+
+    class Meta:
+        verbose_name = 'Заявление на увольнение'
+        verbose_name_plural = 'Заявления на увольнение'
+
+    def __str__(self):
+        return f"увольнение №{self.internal_number} от {self.date} с должности {self.position}"
+
+
+class ApplicationForDismissal(models.Model):
+
+
+
+    internal_number = models.CharField(max_length=10, blank=True, verbose_name='Внутренний номер')
+    date = models.DateField(verbose_name='Дата')
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
+    reason = models.ForeignKey('Reason', blank=True, on_delete=models.SET_NULL, null=True, verbose_name='Причина')
+    application_scan = models.FileField(upload_to=file_upload_function,)
+
+    class Meta:
+        verbose_name = 'Заявление на увольнение'
+        verbose_name_plural = 'Заявления на увольнение'
+
+    def __str__(self):
+        return f"увольнение №{self.internal_number} от {self.date} с должности {self.position}"
+
+
+class OrderForEmployment(models.Model):
+    number = models.CharField(max_length=10, verbose_name='Номер')
+    date = models.DateField(verbose_name='Дата')
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
+    employee = models.OneToOneField(Employee, on_delete=models.SET_NULL, null=True, verbose_name='Сотрудник')
+    scan_file = models.FileField(upload_to=file_upload_function, verbose_name='Скан приказа')
+
+    class Meta:
+        verbose_name = 'Приказ о приеме на работу'
+        verbose_name_plural = 'Приказы о приеме на работу'
+
+    def __str__(self):
+        return f"№{self.number} от {self.date} на должность {self.position}"
+
+
+class Reason(models.Model):
+    name = models.CharField(max_length=250, verbose_name='Название')
+    article_of_law = models.CharField(max_length=250, blank=True, verbose_name='Статья ТК')
+
+    class Meta:
+        verbose_name = 'Причина увольннения'
+        verbose_name_plural = 'Причины увольнения'
+
+    def __str__(self):
+        return self.name
+
+
+
 
