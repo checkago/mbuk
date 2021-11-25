@@ -1,3 +1,6 @@
 from django.contrib import admin
+from kadr.models import EmployeeCard, EmployeeAddress
 
-# Register your models here.
+
+admin.site.register(EmployeeAddress)
+admin.site.register(EmployeeCard)

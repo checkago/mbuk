@@ -1,1 +1,1 @@
-from .uploading import upload_function
+from .uploading import file_upload_function, image_upload_function

@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
-from mainapp.models import Organization, BranchOffice, Department, Employee, BankAccount
+from mainapp.models import Organization, BranchOffice, Department, Employee, OrganizationBankAccount
 from guide.models import Bank, Address
 from mainapp.forms import LoginForm, RegistrationForm
 
@@ -14,7 +14,7 @@ class IndexView(LoginRequiredMixin, views.View):
         organization = Organization.objects.all().filter(primary=True)
         branch_offices = BranchOffice.objects.all()
         departments = Department.objects.all()
-        bank_accounts = BankAccount.objects.all()
+        bank_accounts = OrganizationBankAccount.objects.all()
         employees = Employee.objects.all()
         context = {
             'organization': organization,

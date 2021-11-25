@@ -1,3 +1,6 @@
 from django.contrib import admin
+from documents.models import IncomingDocument, InternalOrderOrganization
 
-# Register your models here.
+
+admin.site.register(IncomingDocument)
+admin.site.register(InternalOrderOrganization)

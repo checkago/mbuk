@@ -1,14 +1,14 @@
 from datetime import datetime
 from django.conf import settings
 from django.db import models
-from utils import upload_function
+from utils import image_upload_function, file_upload_function
 from guide.models import Bank, Address
 
 
 class Organization(models.Model):
     full_name = models.CharField(max_length=250, verbose_name='Полное наименование')
     short_name = models.CharField(max_length=250, verbose_name='Краткое наименование')
-    logo = models.ImageField(upload_to=upload_function, blank=True, verbose_name='Логотип')
+    logo = models.ImageField(upload_to=image_upload_function, blank=True, verbose_name='Логотип')
     legal_address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name='legal_address', verbose_name='Юридический адрес')
     fact_address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name='fact_address', verbose_name='Фактический адрес')
     inn = models.CharField(max_length=10, verbose_name='ИНН')
@@ -16,7 +16,7 @@ class Organization(models.Model):
     okpo = models.CharField(max_length=8, verbose_name='ОКПО')
     ogrn = models.CharField(max_length=13, verbose_name='ОГРН')
     registration_date = models.DateField(verbose_name='Дата регистрации')
-    bank_details = models.ForeignKey('BankAccount', on_delete=models.CASCADE, verbose_name='Баковские реквизиты')
+    bank_details = models.ForeignKey('OrganizationBankAccount', on_delete=models.CASCADE, verbose_name='Баковские реквизиты')
     primary = models.BooleanField(default=False, verbose_name='Основная')
 
     class Meta:
@@ -27,7 +27,7 @@ class Organization(models.Model):
         return self.short_name
 
 
-class BankAccount(models.Model):
+class OrganizationBankAccount(models.Model):
     name = models.CharField(max_length=150, verbose_name='Рабочее название')
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE, verbose_name='Банк')
 
@@ -46,7 +46,7 @@ class BankAccount(models.Model):
 
     class Meta:
         verbose_name = 'Банковский Счет'
-        verbose_name_plural = 'Банковские счета'
+        verbose_name_plural = 'Банковские счета организации'
 
     def __str__(self):
         return self.name
@@ -114,90 +114,12 @@ class Employee(models.Model):
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
     branch_office = models.ForeignKey(BranchOffice, on_delete=models.SET_NULL, null=True, verbose_name='Филиал')
     salary = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True, verbose_name='Оклад')
-    card = models.OneToOneField('EmployeeCard', blank=True, null=True, related_name='card', on_delete=models.SET_NULL,
-                                verbose_name='Карточка сотрудника')
 
     class Meta:
         verbose_name = 'Сотрудник'
         verbose_name_plural = 'Список Сотрудников'
 
     def __str__(self):
-        return f"{self.last_name} {self.first_name} - пользователь({self.user})"
+        return f"{self.last_name} {self.first_name}  - пользователь({self.user})"
 
 
-class EmployeeCard(models.Model):
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
-    # Персональные данные
-    MALE = 'Мужской'
-    FEMALE = 'Женский'
-
-    NOT_MARRIED = 'Не женат/Не замужем'
-    MARRIED = 'Женат/Замужем'
-    WIDOW = 'Вдовец/вдова'
-    DIVORCED = 'Разведен/Разведена'
-
-    SEX_CHOICE = (
-        (MALE, 'Мужской'),
-        (FEMALE, 'Женский')
-    )
-    MARRIED_STATUS_CHOICE = (
-        (NOT_MARRIED, 'Не женат/Не замужем'),
-        (MARRIED, 'Женат/Замужем'),
-        (WIDOW, 'Вдовец/вдова'),
-        (DIVORCED, 'Разведен/Разведена')
-    )
-    """Имя и Фамилия беруться из модели User"""
-    r_first_name = models.CharField(max_length=150, verbose_name='Имя "Кого?"')
-    r_last_name = models.CharField(max_length=150, verbose_name='Фамилия "Кого?"')
-    r_middle_name = models.CharField(max_length=150, verbose_name='Отчество "Кого?"')
-    d_first_name = models.CharField(max_length=150, verbose_name='Имя "Кому?"')
-    d_last_name = models.CharField(max_length=150, verbose_name='Фамилия "Кому?"')
-    d_middle_name = models.CharField(max_length=150, verbose_name='Отчество "Кому?"')
-    image = models.ImageField(upload_to=upload_function, blank=True, verbose_name='Фото')
-
-    # ПАСПОРТНЫЕ ДАННЫЕ
-    passport_serial = models.CharField(max_length=4, verbose_name='Серия паспорта')
-    passport_number = models.CharField(max_length=6, verbose_name='Номер паспорта')
-    passport_issuing = models.CharField(max_length=250, verbose_name='Кем выдан')
-    passport_date_of_issue = models.DateField(verbose_name='Дата выдачи')
-    issuing_office_number = models.CharField(max_length=7, verbose_name='Код подразделения')
-    birthday = models.DateField(verbose_name='Дата рождения')
-    sex = models.CharField(max_length=10, blank=True, null=True, choices=SEX_CHOICE, verbose_name='Пол')
-    marital_status = models.CharField(max_length=25, blank=True, null=True, choices=MARRIED_STATUS_CHOICE,
-                                      verbose_name='Семейное положение')
-    main_address = models.ForeignKey(Address, blank=True, on_delete=models.CASCADE,
-                                     verbose_name='Адрес постоянной регистрации')
-    place_of_stay_address = models.ForeignKey(Address, blank=True, on_delete=models.CASCADE,
-                                              related_name='place_of_stay_address',
-                                              verbose_name='Адрес временной регистрации')
-
-    # СВЕДЕНИЯ о РАБОТЕ и СТАЖ
-    adopted_date = models.DateField(auto_now_add=True, blank=True, verbose_name='Принят')
-    dismissed_date = models.DateField(blank=True, verbose_name='Дата увольнения')
-    experience_before = models.IntegerField(verbose_name='Предыдущий стаж')
-    digital_work_book = models.BooleanField(default=False, verbose_name='"Электронная')
-    paper_work_book = models.BooleanField(default=False, verbose_name='Бумажная')
-    paper_work_book_image = models.ImageField(upload_to=upload_function, blank=True,
-                                              verbose_name='Скан бумажной трудовой')
-
-    # ДОКУМЕНТЫ
-    # Заявление о приеме на работу
-    # job_application = models.ForeignKey('Application', on_delete=models.SET_NULL, blank=True, null=True,
-    #                                     verbose_name='Заявление о приеме на работу')
-    # Приказ о приеме на работу
-    # adopted_order = models.ForeignKey('Order', on_delete=models.SET_NULL, blank=True, null=True,
-    #                                   verbose_name='Прием на работу')
-    # Трудовой договор
-    # employment_contract = models.ForeignKey('EmploymentContract', on_delete=models.SET_NULL, blank=True, null=True,
-    #                                         verbose_name='Прием на работу')
-
-    @property
-    def experience_current(self):
-        return int((datetime.now().date() - self.adopted_date).days / 365.25)
-
-    class Meta:
-        verbose_name = 'Карточка сотрудника'
-        verbose_name_plural = 'Личные карточки сотрудников'
-
-    def __str__(self):
-        return f"Карточка сотрудника {self.employee}"
