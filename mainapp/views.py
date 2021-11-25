@@ -23,7 +23,7 @@ class IndexView(LoginRequiredMixin, views.View):
             'bank_accounts': bank_accounts,
             'employees': employees
         }
-        return render(request, 'home/index.html', context)
+        return render(request, 'index.html', context)
 
 
 class LoginView(views.View):
