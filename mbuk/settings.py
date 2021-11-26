@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'documents',
     'guide',
     'crispy_forms',
+    'import_export',
 ]
 
 MIDDLEWARE = [

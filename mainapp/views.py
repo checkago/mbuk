@@ -1,29 +1,12 @@
 from django import views
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.list import ListView
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from mainapp.models import Organization, BranchOffice, Department, Employee, OrganizationBankAccount
 from guide.models import Bank, Address
 from mainapp.forms import LoginForm, RegistrationForm
-
-
-class IndexView(LoginRequiredMixin, views.View):
-
-    def get(self, request, *args, **kwargs):
-        organization = Organization.objects.all().filter(primary=True)
-        branch_offices = BranchOffice.objects.all()
-        departments = Department.objects.all()
-        bank_accounts = OrganizationBankAccount.objects.all()
-        employees = Employee.objects.all()
-        context = {
-            'organization': organization,
-            'branch_offices': branch_offices,
-            'departments': departments,
-            'bank_accounts': bank_accounts,
-            'employees': employees
-        }
-        return render(request, 'index.html', context)
 
 
 class LoginView(views.View):
@@ -85,3 +68,39 @@ class RegistrationView(views.View):
             'form': form
         }
         return render(request, 'sign-up.html', context)
+
+
+class IndexView(LoginRequiredMixin, views.View):
+
+    def get(self, request, *args, **kwargs):
+        organization = Organization.objects.all().filter(primary=True)
+        branch_offices = BranchOffice.objects.all()
+        departments = Department.objects.all()
+        bank_accounts = OrganizationBankAccount.objects.all()
+        employees = Employee.objects.all()
+        context = {
+            'organization': organization,
+            'branch_offices': branch_offices,
+            'departments': departments,
+            'bank_accounts': bank_accounts,
+            'employees': employees
+        }
+        return render(request, 'index.html', context)
+
+
+class OrganizationListView(LoginRequiredMixin, ListView):
+
+    model = Organization
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class EmployeeListView(LoginRequiredMixin, ListView):
+
+    model = Employee
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

@@ -9,8 +9,10 @@ class Organization(models.Model):
     full_name = models.CharField(max_length=250, verbose_name='Полное наименование')
     short_name = models.CharField(max_length=250, verbose_name='Краткое наименование')
     logo = models.ImageField(upload_to=image_upload_function, blank=True, verbose_name='Логотип')
-    legal_address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name='legal_address', verbose_name='Юридический адрес')
-    fact_address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name='fact_address', verbose_name='Фактический адрес')
+    legal_address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name='legal_address',
+                                      verbose_name='Юридический адрес')
+    fact_address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, related_name='fact_address',
+                                     verbose_name='Почтовый адрес')
     inn = models.CharField(max_length=10, verbose_name='ИНН')
     kpp = models.CharField(max_length=9, verbose_name='КПП')
     okpo = models.CharField(max_length=8, verbose_name='ОКПО')
@@ -109,15 +111,15 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=150, verbose_name='Фамилия')
     first_name = models.CharField(max_length=150, verbose_name='Имя')
     middle_name = models.CharField(max_length=150, blank=True, verbose_name='Отчество')
+    birthday = models.DateField(null=True, verbose_name='Дата рождения')
     phone = models.CharField(max_length=18, verbose_name='Номер телефона')
     whatsapp = models.BooleanField(default=True, verbose_name='Есть whatsapp')
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
-    branch_office = models.ForeignKey(BranchOffice, on_delete=models.SET_NULL, null=True, verbose_name='Филиал')
     salary = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True, verbose_name='Оклад')
 
     class Meta:
         verbose_name = 'Сотрудник'
-        verbose_name_plural = 'Список Сотрудников'
+        verbose_name_plural = 'Сотрудники'
 
     def __str__(self):
         return f"{self.last_name} {self.first_name}  - пользователь({self.user})"

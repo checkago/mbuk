@@ -1,6 +1,6 @@
 from django.db import models
 from utils import image_upload_function, file_upload_function
-from mainapp.models import Employee, Position
+from mainapp.models import Employee, Position, Organization, BranchOffice
 
 
 class EmployeeAddress(models.Model):
@@ -23,6 +23,8 @@ class EmployeeAddress(models.Model):
 class EmployeeCard(models.Model):
     employee = models.OneToOneField(Employee, on_delete=models.CASCADE, related_name="employee_card",
                                     verbose_name="Сотрудник")
+    branch_office = models.ForeignKey(BranchOffice, blank=True, on_delete=models.SET_NULL, null=True,
+                                      verbose_name='Филиал')
     # Персональные данные
     MALE = 'Мужской'
     FEMALE = 'Женский'
@@ -57,7 +59,6 @@ class EmployeeCard(models.Model):
     passport_issuing = models.CharField(max_length=250, verbose_name='Кем выдан')
     passport_date_of_issue = models.DateField(verbose_name='Дата выдачи')
     issuing_office_number = models.CharField(max_length=7, verbose_name='Код подразделения')
-    birthday = models.DateField(verbose_name='Дата рождения')
     sex = models.CharField(max_length=10, blank=True, null=True, choices=SEX_CHOICE, verbose_name='Пол')
     marital_status = models.CharField(max_length=25, blank=True, null=True, choices=MARRIED_STATUS_CHOICE,
                                       verbose_name='Семейное положение')
@@ -145,6 +146,7 @@ class ApplicationForDismissal(models.Model):
 class OrderForEmployment(models.Model):
     number = models.CharField(max_length=10, verbose_name='Номер')
     date = models.DateField(verbose_name='Дата')
+    employee = models.ForeignKey(Employee, blank=True, on_delete=models.SET_NULL, null=True, verbose_name='Сотрудник')
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
     scan_file = models.FileField(upload_to=file_upload_function, verbose_name='Скан приказа')
 
@@ -154,6 +156,24 @@ class OrderForEmployment(models.Model):
 
     def __str__(self):
         return f"№{self.number} от {self.date} на должность {self.position}"
+
+
+class WorkContract(models.Model):
+    number = models.CharField(max_length=10, verbose_name='Номер')
+    date = models.DateField(verbose_name='Дата')
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, verbose_name='Организация')
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
+
+    class Meta:
+        verbose_name = 'Трудовой договор'
+        verbose_name_plural = 'Трудовые договоры'
+
+    def __str__(self):
+        return f"{self.number}/{self.date} ({self.employee})"
+
+
+""" СПРАВОЧНИКИ """
 
 
 class Reason(models.Model):

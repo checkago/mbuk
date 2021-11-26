@@ -1,4 +1,5 @@
 from django.contrib import admin
+from import_export import resources
 
 from mainapp.models import Organization, \
     OrganizationBankAccount, \
@@ -6,6 +7,13 @@ from mainapp.models import Organization, \
     BranchOffice, \
     Position, \
     Employee
+
+
+class EmployeeResource(resources.ModelResource):
+
+    class Meta:
+        model = Employee
+
 
 admin.site.register(Organization)
 admin.site.register(OrganizationBankAccount)
