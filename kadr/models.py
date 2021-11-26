@@ -128,9 +128,6 @@ class ApplicationForTransfer(models.Model):
 
 
 class ApplicationForDismissal(models.Model):
-
-
-
     internal_number = models.CharField(max_length=10, blank=True, verbose_name='Внутренний номер')
     date = models.DateField(verbose_name='Дата')
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
@@ -149,7 +146,6 @@ class OrderForEmployment(models.Model):
     number = models.CharField(max_length=10, verbose_name='Номер')
     date = models.DateField(verbose_name='Дата')
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
-    employee = models.OneToOneField(Employee, on_delete=models.SET_NULL, null=True, verbose_name='Сотрудник')
     scan_file = models.FileField(upload_to=file_upload_function, verbose_name='Скан приказа')
 
     class Meta:
