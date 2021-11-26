@@ -161,7 +161,7 @@ class Reason(models.Model):
     article_of_law = models.CharField(max_length=250, blank=True, verbose_name='Статья ТК')
 
     class Meta:
-        verbose_name = 'Причина увольннения'
+        verbose_name = 'Причина увольнения'
         verbose_name_plural = 'Причины увольнения'
 
     def __str__(self):
