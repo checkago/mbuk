@@ -1,4 +1,5 @@
 from django import views
+import random
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
 from django.shortcuts import render
@@ -67,7 +68,7 @@ class RegistrationView(views.View):
         context = {
             'form': form
         }
-        return render(request, 'sign-up.html', context)
+        return render(request, 'accounts/register.html', context)
 
 
 class IndexView(LoginRequiredMixin, views.View):
@@ -103,4 +104,6 @@ class EmployeeListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        label = ['success', 'light', 'danger', 'success', 'warning', 'dark', 'primary', 'info']
+        context['label'] = label
         return context

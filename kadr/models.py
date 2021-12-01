@@ -3,6 +3,17 @@ from utils import image_upload_function, file_upload_function
 from mainapp.models import Employee, Position, Organization, BranchOffice
 
 
+class EmployeeStatus(models.Model):
+    name = models.CharField(max_length=150, verbose_name='Нименование')
+
+    class Meta:
+        verbose_name = 'Статус сотрудника'
+        verbose_name_plural = 'Стаутсы сотрудников'
+
+    def __str__(self):
+        return self.name
+
+
 class EmployeeAddress(models.Model):
     region = models.CharField(max_length=150, verbose_name='Область/Край')
     district = models.CharField(max_length=150, blank=True, verbose_name='Район')
@@ -62,6 +73,7 @@ class EmployeeCard(models.Model):
     sex = models.CharField(max_length=10, blank=True, null=True, choices=SEX_CHOICE, verbose_name='Пол')
     marital_status = models.CharField(max_length=25, blank=True, null=True, choices=MARRIED_STATUS_CHOICE,
                                       verbose_name='Семейное положение')
+    children = models.IntegerField(blank=True, verbose_name='Несовершеннолетние дети')
     main_address = models.ForeignKey(EmployeeAddress, blank=True, on_delete=models.CASCADE,
                                      related_name='employee_main_address', verbose_name='Адрес постоянной регистрации')
     place_of_stay_address = models.ForeignKey(EmployeeAddress, blank=True, null=True, on_delete=models.CASCADE,

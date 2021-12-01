@@ -12066,7 +12066,7 @@ function arrow(data, options) {
   var center = reference[side] + reference[len] / 2 - arrowElementSize / 2;
 
   // Compute the sideValue using the updated popper offsets
-  // take popper margin in account because we don't have this info available
+  // take popper margin in accounts because we don't have this info available
   var css = getStyleComputedProperty(data.instance.popper);
   var popperMarginSide = parseFloat(css['margin' + sideCapitalized]);
   var popperBorderSide = parseFloat(css['border' + sideCapitalized + 'Width']);
@@ -15337,7 +15337,7 @@ h(Math,"asinh",Mr.asinh,Math.asinh(1e300)===Infinity);h(Math,"atanh",Mr.atanh,Ma
 				});
 			}
 
-			// ie7 must use absolute positioning in quirks mode and to account for activex issues (when scrolling)
+			// ie7 must use absolute positioning in quirks mode and to accounts for activex issues (when scrolling)
 			var expr = setExpr && (!$.support.boxModel || $('object,embed', full ? null : el).length > 0);
 			if (ie6 || expr) {
 				// give body 100% height
@@ -48687,7 +48687,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		function changeOverflow(value) {
 			{
 				// Chrome/Safari-specific fix:
-				// When the textarea y-overflow is hidden, Chrome/Safari do not reflow the text to account for the space
+				// When the textarea y-overflow is hidden, Chrome/Safari do not reflow the text to accounts for the space
 				// made available by removing the scrollbar. The following forces the necessary text reflow.
 				var width = ta.style.width;
 				ta.style.width = '0px';
@@ -48748,7 +48748,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			var styleHeight = Math.round(parseFloat(ta.style.height));
 			var computed = window.getComputedStyle(ta, null);
 
-			// Using offsetHeight as a replacement for computed.height in IE, because IE does not account use of border-box
+			// Using offsetHeight as a replacement for computed.height in IE, because IE does not accounts use of border-box
 			var actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(computed.height)) : ta.offsetHeight;
 
 			// The actual height not matching the style height (set via the resize method) indicates that 
@@ -74591,7 +74591,7 @@ Markdown.dialects.Gruber = {
           // Check the next block - it might be code too
           if ( !next[0].match( re ) ) break block_search;
 
-          // Pull how how many blanks lines follow - minus two to account for .join
+          // Pull how how many blanks lines follow - minus two to accounts for .join
           ret.push ( block.trailing.replace(/[^\n]/g, "").substring(2) );
 
           block = next.shift();
