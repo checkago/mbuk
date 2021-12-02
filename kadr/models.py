@@ -6,6 +6,7 @@ from mainapp.models import Employee, Position, Organization, BranchOffice
 
 class EmployeeStatus(models.Model):
     name = models.CharField(max_length=150, verbose_name='Нименование')
+    color = models.CharField(max_length=50, blank=True, verbose_name='Цвет')
 
     class Meta:
         verbose_name = 'Статус сотрудника'
@@ -82,13 +83,14 @@ class EmployeeCard(models.Model):
                                               verbose_name='Адрес временной регистрации')
 
     # СВЕДЕНИЯ о РАБОТЕ и СТАЖ
-    adopted_date = models.DateField(auto_now_add=True, blank=True, verbose_name='Принят')
+    status = models.ForeignKey(EmployeeStatus, on_delete=models.SET_NULL, null=True, verbose_name='Рабочий статус')
+    adopted_date = models.DateField(blank=True, verbose_name='Принят')
     dismissed_date = models.DateField(blank=True, null=True, verbose_name='Дата увольнения')
     experience_before = models.IntegerField(verbose_name='Предыдущий стаж')
     digital_work_book = models.BooleanField(default=False, verbose_name='"Электронная')
     paper_work_book = models.BooleanField(default=False, verbose_name='Бумажная')
     paper_work_book_image = models.FileField(upload_to=file_upload_function, blank=True,
-                                              verbose_name='Скан бумажной трудовой')
+                                             verbose_name='Скан бумажной трудовой')
 
     # ДОКУМЕНТЫ
     # Заявление о приеме на работу
@@ -107,6 +109,14 @@ class EmployeeCard(models.Model):
     @property
     def experience_current(self):
         return int((datetime.now().date() - self.adopted_date).days / 365.25)
+
+    @property
+    def age(self):
+        return int((datetime.now().date() - self.employee.birthday).days / 365.25)
+
+    @property
+    def experience_full(self):
+        return int(self.experience_current + self.experience_before)
 
     class Meta:
         verbose_name = 'Карточка сотрудника'

@@ -113,7 +113,6 @@ class Employee(models.Model):
     birthday = models.DateField(null=True, verbose_name='Дата рождения')
     phone = models.CharField(max_length=18, verbose_name='Номер телефона')
     whatsapp = models.BooleanField(default=True, verbose_name='Есть whatsapp')
-    work_start_date = models.DateField(null=True, verbose_name='Дата приема на работу')
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
     salary = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True, verbose_name='Оклад')
 

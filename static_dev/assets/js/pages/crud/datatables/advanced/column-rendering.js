@@ -18,37 +18,6 @@ var KTDatatablesAdvancedColumnRendering = function() {
 						return '<a class="text-dark-50 text-hover-primary" href="mailto:' + data + '">' + data + '</a>';
 					},
 				},
-				{
-					targets: 5,
-					render: function(data, type, full, meta) {
-						var status = {
-							1: {'title': 'Работает', 'class': ' label-light-warning'},
-							2: {'title': 'Отпуск', 'class': ' label-light-success'},
-							3: {'title': 'Больничный', 'class': ' label-light-danger'},
-							4: {'title': 'Отгул', 'class': ' label-light-primary'},
-							5: {'title': 'Учеба', 'class': ' label-light-info'},
-						};
-						if (typeof status[data] === 'undefined') {
-							return data;
-						}
-						return '<span class="label label-lg font-weight-bold' + status[data].class + ' label-inline">' + status[data].title + '</span>';
-					},
-				},
-				{
-					targets: 4,
-					render: function(data, type, full, meta) {
-						var status = {
-							1: {'title': 'Online', 'state': 'danger'},
-							2: {'title': 'Retail', 'state': 'primary'},
-							3: {'title': 'Direct', 'state': 'success'},
-						};
-						if (typeof status[data] === 'undefined') {
-							return data;
-						}
-						return '<span class="label label-' + status[data].state + ' label-dot mr-2"></span>' +
-							'<span class="font-weight-bold text-' + status[data].state + '">' + status[data].title + '</span>';
-					},
-				},
 			],
 		});
 

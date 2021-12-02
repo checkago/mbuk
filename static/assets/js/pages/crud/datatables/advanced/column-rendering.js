@@ -19,7 +19,7 @@ var KTDatatablesAdvancedColumnRendering = function() {
 					},
 				},
 				{
-					targets: 5,
+					targets: 7,
 					render: function(data, type, full, meta) {
 						var status = {
 							1: {'title': 'Работает', 'class': ' label-light-warning'},
@@ -35,7 +35,7 @@ var KTDatatablesAdvancedColumnRendering = function() {
 					},
 				},
 				{
-					targets: 4,
+					targets: 7,
 					render: function(data, type, full, meta) {
 						var status = {
 							1: {'title': 'Online', 'state': 'danger'},

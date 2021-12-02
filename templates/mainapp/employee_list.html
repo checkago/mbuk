@@ -140,10 +140,10 @@
 											<thead>
 												<tr>
 													<th>ФИО</th>
-													<th>Телефон</th>
 													<th>Должность</th>
-													<th>Дата рождения</th>
-													<th>Почта</th>
+													<th>Возраст</th>
+													<th>Стаж в ЦБС</th>
+                                                    <th>Общий стаж</th>
 													<th>Статус</th>
 													<th>Действия</th>
 												</tr>
@@ -174,11 +174,11 @@
                                                         </div>
                                                         {% endif %}
                                                     </td>
+                                                    <td>{{ EmployeeCard.employee.position }}</td>
+													<td>{{ EmployeeCard.age }}</td>
 													<td>{{ EmployeeCard.experience_current }}</td>
-													<td>{{ EmployeeCard.employee.position }}</td>
-													<td>{{ EmployeeCard.employee.birthday }}</td>
-													<td>{{ EmployeeCard.employee.user.email }}</td>
-													<td>1</td>
+                                                    <td>{{ EmployeeCard.experience_full }}</td>
+                                                    <td><span class="label font-weight-bold label-lg  label-light-{{ EmployeeCard.status.color }} label-inline">{{ EmployeeCard.status.name }}</span></td>
 													<td nowrap="nowrap"></td>
 												</tr>
                                             {% endfor %}

@@ -58,9 +58,9 @@ class RegistrationForm(forms.ModelForm):
         self.fields['birth_date'].label = 'Дата рождения'
         self.fields['password'].label = 'Пароль'
         self.fields['confirm_password'].label = 'Подтверждение пароля'
-        self.fields['first_name'].label = 'Имя'
         self.fields['last_name'].label = 'Фамилия'
-        self.fields['phone'].label = 'Номер телефона'
+        self.fields['first_name'].label = 'Имя'
+        self.fields['middle_name'].label = 'Отчество'
         self.fields['email'].label = 'E-mail'
 
     def clean_email(self):
@@ -72,24 +72,11 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError('Данный почтовый ящик уже зарегистрирован')
         return email
 
-    def clean_birth_date(self):
-        birth_date = self.cleaned_data['birth_date']
-        age = int((datetime.now().date() - birth_date).days / 365.25)
-        if age < 18:
-            raise forms.ValidationError(f"Указанный вами возраст меньше 18 лет. Регистрация не возможна")
-        return birth_date
-
     def clean_username(self):
         username = self.cleaned_data['username']
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError(f'Имя {username} занято')
         return username
-
-    def clean_agreement(self):
-        agreement = self.cleaned_data['agreement']
-        if agreement == False:
-            raise forms.ValidationError(f'Вы не подтвердили свое согласие с правилами обработки персональных данных')
-        return agreement
 
     def clean(self):
         password = self.cleaned_data['password']
