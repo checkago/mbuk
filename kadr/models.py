@@ -10,7 +10,7 @@ class EmployeeStatus(models.Model):
 
     class Meta:
         verbose_name = 'Статус сотрудника'
-        verbose_name_plural = 'Стаутсы сотрудников'
+        verbose_name_plural = 'Статусы сотрудников'
 
     def __str__(self):
         return self.name

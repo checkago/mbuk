@@ -1,6 +1,6 @@
 from django import forms
-from datetime import datetime
 from django.contrib.auth import get_user_model
+from mainapp.models import Employee
 
 User = get_user_model()
 
@@ -46,11 +46,10 @@ class RegistrationForm(forms.ModelForm):
     birth_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True)
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
-    first_name = forms.CharField(required=True)
     last_name = forms.CharField(required=True)
-    phone = forms.CharField(required=True)
+    first_name = forms.CharField(required=True)
+    middle_name = forms.CharField()
     email = forms.EmailField(required=False, widget=forms.EmailInput)
-    agreement = forms.BooleanField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -87,4 +86,4 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'password', 'confirm_password', 'birth_date', 'first_name', 'last_name', 'phone', 'email']
+        fields = ['username', 'password', 'confirm_password', 'birth_date', 'first_name', 'last_name', 'email']
