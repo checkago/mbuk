@@ -149,35 +149,35 @@
 												</tr>
 											</thead>
 											<tbody>
-                                            {% for Employee in object_list %}
+                                            {% for EmployeeCard in object_list %}
 												<tr>
 													<td>
                                                         <div class="d-flex align-items-center">
-                                                        {% if Employee.photo is not empty %}
+                                                        {% if EmployeeCard.image is not empty %}
                                                             <div class="symbol symbol-50 flex-shrink-0">
-                                                                <img src="{{ Employee.image.url }}" alt="photo">
+                                                                <img src="{{ EmployeeCard.image.url }}" alt="photo">
                                                             </div>
                                                             <div class="ml-3">
-                                                                <span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ Employee.last_name }} {{ Employee.first_name }}</span>
-                                                                <a href="#" class="text-muted text-hover-primary">{{ Employee.middle_name }}</a>
+                                                                <span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ EmployeeCard.employee.last_name }} {{ EmployeeCard.employee.first_name }}</span>
+                                                                <a href="#" class="text-muted text-hover-primary">{{ EmployeeCard.employee.middle_name }}</a>
                                                             </div>
                                                         </div>
                                                         {% else %}
                                                         <div class="d-flex align-items-center">
                                                             <div class="symbol symbol-50 symbol-light-{{ label | random }}" flex-shrink-0">
-                                                                <div class="symbol-label font-size-h5">{{ Employee.last_name|slice:":1" }}</div>
+                                                                <div class="symbol-label font-size-h5">{{ EmployeeCard.employee.last_name|slice:":1" }}</div>
                                                             </div>
                                                             <div class="ml-3">
-                                                                <span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ Employee.last_name }} {{ Employee.first_name }}</span>
-                                                                <a href="#" class="text-muted text-hover-primary">{{ Employee.middle_name }}</a>
+                                                                <span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ EmployeeCard.employee.last_name }} {{ EmployeeCard.employee.first_name }}</span>
+                                                                <a href="#" class="text-muted text-hover-primary">{{ EmployeeCard.employee.middle_name }}</a>
                                                             </div>
                                                         </div>
                                                         {% endif %}
                                                     </td>
-													<td>{{ Employee.phone }}</td>
-													<td>{{ Employee.position }}</td>
-													<td>{{ Employee.birthday }}</td>
-													<td>{{ Employee.user.email }}</td>
+													<td>{{ EmployeeCard.experience_current }}</td>
+													<td>{{ EmployeeCard.employee.position }}</td>
+													<td>{{ EmployeeCard.employee.birthday }}</td>
+													<td>{{ EmployeeCard.employee.user.email }}</td>
 													<td>1</td>
 													<td nowrap="nowrap"></td>
 												</tr>

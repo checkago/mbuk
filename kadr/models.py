@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 from utils import image_upload_function, file_upload_function
 from mainapp.models import Employee, Position, Organization, BranchOffice
 
@@ -91,14 +92,17 @@ class EmployeeCard(models.Model):
 
     # ДОКУМЕНТЫ
     # Заявление о приеме на работу
-    #job_application = models.ForeignKey('Application', on_delete=models.SET_NULL, blank=True, null=True,
-                                        #verbose_name='Заявление о приеме на работу')
+    appliccaton_for_employment = models.ForeignKey('ApplicationForEmployment', on_delete=models.SET_NULL,
+                                                   blank=True, null=True, verbose_name='Заявление о приеме на работу')
     # Приказ о приеме на работу
-    #adopted_order = models.ForeignKey('Order', on_delete=models.SET_NULL, blank=True, null=True,
-                                      #verbose_name='Прием на работу')
+    order_for_employment = models.ForeignKey('OrderForEmployment', on_delete=models.SET_NULL, blank=True, null=True,
+                                             verbose_name='Приказ о приеме на работу')
     # Трудовой договор
-    #employment_contract = models.ForeignKey('EmploymentContract', on_delete=models.SET_NULL, blank=True, null=True,
-                                            #verbose_name='Прием на работу')
+    work_contract = models.ForeignKey('WorkContract', on_delete=models.SET_NULL, blank=True, null=True,
+                                      verbose_name='Трудовой договор')
+    #Соглашение о персональных данных
+    covid_certificate = models.ForeignKey('CovidCertificate', on_delete=models.CASCADE, blank=True, null=True,
+                                          verbose_name='Сертификат вакцинированного')
 
     @property
     def experience_current(self):
@@ -119,8 +123,8 @@ class ApplicationForEmployment(models.Model):
     application_scan = models.FileField(upload_to=file_upload_function,)
 
     class Meta:
-        verbose_name = 'Заявление на работу'
-        verbose_name_plural = 'Заявления на работу'
+        verbose_name = 'Заявление на прием на работу'
+        verbose_name_plural = 'Заявления на прием на работу'
 
     def __str__(self):
         return f"прием №{self.internal_number} от {self.date} на должность {self.position}"
@@ -133,8 +137,8 @@ class ApplicationForTransfer(models.Model):
     application_scan = models.FileField(upload_to=file_upload_function,)
 
     class Meta:
-        verbose_name = 'Заявление на увольнение'
-        verbose_name_plural = 'Заявления на увольнение'
+        verbose_name = 'Заявление на перевод'
+        verbose_name_plural = 'Заявления на перевод'
 
     def __str__(self):
         return f"увольнение №{self.internal_number} от {self.date} с должности {self.position}"
@@ -183,6 +187,34 @@ class WorkContract(models.Model):
 
     def __str__(self):
         return f"{self.number}/{self.date} ({self.employee})"
+
+
+class PersonalDataAgreement(models.Model):
+    employee = models.ForeignKey(EmployeeCard, on_delete=models.CASCADE, verbose_name='Соглашение о персоналных данных')
+    number = models.CharField(max_length=10, verbose_name='Номер')
+    date = models.DateField(verbose_name='Дата')
+    agreement_file = models.FileField(upload_to=file_upload_function, verbose_name='Скан документа')
+
+    class Meta:
+        verbose_name = 'Соглашение об обработке персоналных данных'
+        verbose_name_plural = 'Соглашения об обработке персональных данных'
+
+    def __str__(self):
+        return self.employee
+
+
+class CovidCertificate(models.Model):
+    employee = models.ForeignKey(EmployeeCard, on_delete=models.CASCADE, verbose_name='Сертифика о вакцинации')
+    number = models.CharField(max_length=10, verbose_name='Номер')
+    date = models.DateField(verbose_name='Дата')
+    certificate_file = models.FileField(upload_to=file_upload_function, verbose_name='Скан документа')
+
+    class Meta:
+        verbose_name = 'Сертификат о вакцинации'
+        verbose_name_plural = 'Сертификаты вакцинированных'
+
+    def __str__(self):
+        return self.employee
 
 
 """ СПРАВОЧНИКИ """

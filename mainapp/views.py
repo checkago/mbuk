@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from mainapp.models import Organization, BranchOffice, Department, Employee, OrganizationBankAccount
+from kadr.models import EmployeeCard
 from guide.models import Bank, Address
 from mainapp.forms import LoginForm, RegistrationForm
 
@@ -100,7 +101,8 @@ class OrganizationListView(LoginRequiredMixin, ListView):
 
 class EmployeeListView(LoginRequiredMixin, ListView):
 
-    model = Employee
+    model = EmployeeCard
+    template_name = 'mainapp/employee_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

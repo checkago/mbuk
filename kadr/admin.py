@@ -9,5 +9,7 @@ admin.site.register(ApplicationForTransfer)
 admin.site.register(ApplicationForDismissal)
 admin.site.register(OrderForEmployment)
 admin.site.register(WorkContract)
+admin.site.register(PersonalDataAgreement)
+admin.site.register(CovidCertificate)
 admin.site.register(Reason)
 
