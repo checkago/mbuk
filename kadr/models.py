@@ -80,13 +80,14 @@ class EmployeeCard(models.Model):
                                      related_name='employee_main_address', verbose_name='Адрес постоянной регистрации')
     place_of_stay_address = models.ForeignKey(EmployeeAddress, blank=True, null=True, on_delete=models.CASCADE,
                                               related_name='employee_place_of_stay_address',
-                                              verbose_name='Адрес временной регистрации')
+                                              verbose_name='Фактический адрес проживания')
 
     # СВЕДЕНИЯ о РАБОТЕ и СТАЖ
     status = models.ForeignKey(EmployeeStatus, on_delete=models.SET_NULL, null=True, verbose_name='Рабочий статус')
     adopted_date = models.DateField(blank=True, verbose_name='Принят')
     dismissed_date = models.DateField(blank=True, null=True, verbose_name='Дата увольнения')
-    experience_before = models.IntegerField(verbose_name='Предыдущий стаж')
+    bib_experience_before = models.IntegerField(blank=True, null=True, verbose_name='Предыдущий стаж библиотечный')
+    experience_before = models.IntegerField(verbose_name='Предыдущий стаж полный')
     digital_work_book = models.BooleanField(default=False, verbose_name='"Электронная')
     paper_work_book = models.BooleanField(default=False, verbose_name='Бумажная')
     paper_work_book_image = models.FileField(upload_to=file_upload_function, blank=True,

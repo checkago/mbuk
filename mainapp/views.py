@@ -1,14 +1,18 @@
 from django import views
-import random
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
-from mainapp.models import Organization, BranchOffice, Department, Employee, OrganizationBankAccount
+
+from mainapp import forms
+from mainapp.models import Organization, BranchOffice, Department, Employee, OrganizationBankAccount, Position
 from kadr.models import EmployeeCard
 from guide.models import Bank, Address
-from mainapp.forms import LoginForm, RegistrationForm
+from mainapp.forms import LoginForm, UserCreateForm, EmployeeCreateForm
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class LoginView(views.View):
@@ -36,17 +40,17 @@ class LoginView(views.View):
         return render(request, 'accounts/login.html', context)
 
 
-class RegistrationView(views.View):
+class UserCreateView(views.View):
 
     def get(self, request, *args, **kwargs):
-        form = RegistrationForm(request.POST or None)
+        form = UserCreateForm(request.POST or None)
         context = {
             'form': form
         }
         return render(request, 'accounts/register.html', context)
 
     def post(self, request, *args, **kwargs):
-        form = RegistrationForm(request.POST or None)
+        form = UserCreateForm(request.POST or None)
         if form.is_valid():
             new_user = form.save(commit=False)
             new_user.username = form.cleaned_data['username']
@@ -57,19 +61,38 @@ class RegistrationView(views.View):
             new_user.save()
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
-            Customer.objects.create(
-                user=new_user,
-                birth_date=form.cleaned_data['birth_date'],
-                phone=form.cleaned_data['phone'],
-                agreement=form.cleaned_data['agreement'],
-            )
-            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            login(request, user)
-            return HttpResponseRedirect('/catalog')
+            return HttpResponseRedirect('/employees')
         context = {
             'form': form
         }
         return render(request, 'accounts/register.html', context)
+
+
+class EmployeeCreateView(views.View):
+
+    def get(self, request, *args, **kwargs):
+        form = EmployeeCreateForm(request.POST or None)
+        context = {
+            'form': form
+        }
+        return render(request, 'mainapp/employee_create.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = EmployeeCreateForm(request.POST or None)
+        if form.is_valid():
+            new_employee = form.save(commit=False)
+            new_employee.user = form.cleaned_data['user']
+            new_employee.first_name = form.cleaned_data['first_name']
+            new_employee.last_name = form.cleaned_data['last_name']
+            new_employee.middle_name = form.cleaned_data['middle_name']
+            new_employee.position = form.cleaned_data['position']
+            new_employee.birthday = form.cleaned_data['birthday']
+            new_employee.save()
+            return HttpResponseRedirect('/employees')
+        context = {
+            'form': form
+        }
+        return render(request, 'mainapp/employee_create.html', context)
 
 
 class IndexView(LoginRequiredMixin, views.View):
@@ -107,3 +130,4 @@ class EmployeeListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+

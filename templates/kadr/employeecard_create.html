@@ -13,7 +13,7 @@
                         </a>
                     </div>
                     <!--end::Login Header-->
-                                        <div class="container">
+                    <div class="container">
                         {% for error in form.errors.birth_date %}
                         <div class="alert border-0 alert-dismissible fade show py-2">
                             <div class="d-flex align-items-center">
@@ -60,28 +60,67 @@
                             <h3>Добавление нового сотрудника</h3>
                             <div class="text-muted font-weight-bold">Заполните все необходимые поля</div>
                         </div>
-                        <form class="form" method="post" action="{% url 'register' %}">
+                        <form class="form" method="post" action="{% url 'employeecard_create' %}">
                             {% csrf_token %}
                             <div class="form-group mb-5">
-                                {% crispy_field form.last_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Фамилия' %}
+                                {% crispy_field form.employee 'class' 'form-control' 'placeholder' 'Сотрудник' %}
+                            </div>
+                            <div class="col-4 form-group mb-5">
+                                {% crispy_field form.branch_office 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Отдел' %}
+                            </div>
+                            <div class="row">
+                                <div class="col-4 form-group mb-5">
+                                    {% crispy_field form.r_last_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Ч_Фамилия' %}
+                                </div>
+                                <div class="col-4 form-group mb-5">
+                                    {% crispy_field form.r_first_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Ч_Имя' %}
+                                </div>
+                                <div class="col-4 form-group mb-5">
+                                    {% crispy_field form.r_middle_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Ч_Отчество' %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 form-group mb-5">
+                                    {% crispy_field form.d_last_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Д_Фамилия' %}
+                                </div>
+                                <div class="col-4 form-group mb-5">
+                                    {% crispy_field form.d_first_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Д_Имя' %}
+                                </div>
+                                <div class="col-4 form-group mb-5">
+                                    {% crispy_field form.d_middle_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Д_Отчество' %}
+                                </div>
                             </div>
                             <div class="form-group mb-5">
-                                {% crispy_field form.first_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Имя' %}
+                                {% crispy_field form.image 'class' 'form-control' 'type' 'file' 'placeholder' 'Фото' %}
+                            </div>
+
+                            <!-- ПАСПОРТНЫЕ ДАННЫЕ -->
+                            <div class="form-group mb-5">
+                                {% crispy_field form.passport_serial 'class' 'form-control' 'placeholder' 'passport_serial' %}
                             </div>
                             <div class="form-group mb-5">
-                                {% crispy_field form.birth_date 'class' 'form-control' 'type' 'date' 'placeholder' 'Дата рождения' %}
+                                {% crispy_field form.passport_number 'class' 'form-control' 'placeholder' 'passport_number' %}
                             </div>
                             <div class="form-group mb-5">
-                                {% crispy_field form.email 'class' 'form-control' 'type' 'email' 'placeholder' 'Почта' %}
+                                {% crispy_field form.passport_issuing 'class' 'form-control' 'placeholder' 'passport_issuing' %}
                             </div>
                             <div class="form-group mb-5">
-                                {% crispy_field form.username 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'логин' %}
+                                {% crispy_field form.passport_date_of_issue 'class' 'form-control' 'type' 'date' 'placeholder' 'passport_date_of_issue' %}
                             </div>
                             <div class="form-group mb-5">
-                                {% crispy_field form.password 'class' 'form-control' 'type' 'password' 'placeholder' 'Пароль' %}
+                                {% crispy_field form.issuing_office_number 'class' 'form-control' 'placeholder' 'issuing_office_number' %}
                             </div>
                             <div class="form-group mb-5">
-                                {% crispy_field form.confirm_password 'class' 'form-control' 'type' 'password' 'placeholder' 'Подтверждение' %}
+                                {% crispy_field form.sex 'class' 'form-control' 'placeholder' 'sex' %}
+                            </div>
+                            <div class="form-group mb-5">
+                                {% crispy_field form.marital_status 'class' 'form-control' 'placeholder' 'marital_status' %}
+                            </div>
+                            <div class="form-group mb-5">
+                                {% crispy_field form.children 'class' 'form-control' 'placeholder' 'children' %}
+                            </div>
+                            <div class="form-group mb-5">
+                                {% crispy_field form.main_address 'class' 'form-control' 'placeholder' 'main_address' %}
                             </div>
                             <div class="form-group d-flex flex-wrap flex-center mt-10">
                                 <button type="submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-2">Создать</button>

@@ -13,7 +13,7 @@
                         </a>
                     </div>
                     <!--end::Login Header-->
-                                        <div class="container">
+                    <div class="container">
                         {% for error in form.errors.birth_date %}
                         <div class="alert border-0 alert-dismissible fade show py-2">
                             <div class="d-flex align-items-center">
@@ -60,8 +60,11 @@
                             <h3>Добавление нового сотрудника</h3>
                             <div class="text-muted font-weight-bold">Заполните все необходимые поля</div>
                         </div>
-                        <form class="form" method="post" action="{% url 'register' %}">
+                        <form class="form" method="post" action="{% url 'employee_create' %}">
                             {% csrf_token %}
+                            <div class="form-group mb-5">
+                                {% crispy_field form.user 'class' 'form-control' 'type' 'username' 'placeholder' 'Пользователь' %}
+                            </div>
                             <div class="form-group mb-5">
                                 {% crispy_field form.last_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Фамилия' %}
                             </div>
@@ -69,19 +72,13 @@
                                 {% crispy_field form.first_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Имя' %}
                             </div>
                             <div class="form-group mb-5">
-                                {% crispy_field form.birth_date 'class' 'form-control' 'type' 'date' 'placeholder' 'Дата рождения' %}
+                                {% crispy_field form.middle_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Отчество' %}
                             </div>
                             <div class="form-group mb-5">
-                                {% crispy_field form.email 'class' 'form-control' 'type' 'email' 'placeholder' 'Почта' %}
+                                {% crispy_field form.birthday 'class' 'form-control' 'type' 'date' 'placeholder' 'Дата рождения' %}
                             </div>
                             <div class="form-group mb-5">
-                                {% crispy_field form.username 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'логин' %}
-                            </div>
-                            <div class="form-group mb-5">
-                                {% crispy_field form.password 'class' 'form-control' 'type' 'password' 'placeholder' 'Пароль' %}
-                            </div>
-                            <div class="form-group mb-5">
-                                {% crispy_field form.confirm_password 'class' 'form-control' 'type' 'password' 'placeholder' 'Подтверждение' %}
+                                {% crispy_field form.position 'class' 'form-control' 'type' 'date' 'placeholder' 'Должность' %}
                             </div>
                             <div class="form-group d-flex flex-wrap flex-center mt-10">
                                 <button type="submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-2">Создать</button>

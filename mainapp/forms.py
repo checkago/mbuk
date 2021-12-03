@@ -1,6 +1,7 @@
 from django import forms
+from mainapp.models import Employee, Position
+
 from django.contrib.auth import get_user_model
-from mainapp.models import Employee
 
 User = get_user_model()
 
@@ -42,25 +43,18 @@ class LoginForm(forms.ModelForm):
         return self.cleaned_data
 
 
-class RegistrationForm(forms.ModelForm):
+class UserCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['birth_date', 'first_name', 'last_name', 'email', 'username', 'password']
+    username = forms.CharField(required=True)
     birth_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True)
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
     last_name = forms.CharField(required=True)
     first_name = forms.CharField(required=True)
-    middle_name = forms.CharField()
     email = forms.EmailField(required=False, widget=forms.EmailInput)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].label = 'Логин'
-        self.fields['birth_date'].label = 'Дата рождения'
-        self.fields['password'].label = 'Пароль'
-        self.fields['confirm_password'].label = 'Подтверждение пароля'
-        self.fields['last_name'].label = 'Фамилия'
-        self.fields['first_name'].label = 'Имя'
-        self.fields['middle_name'].label = 'Отчество'
-        self.fields['email'].label = 'E-mail'
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -84,6 +78,11 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError('Пароли не совпадают')
         return self.cleaned_data
 
+
+class EmployeeCreateForm(forms.ModelForm):
+
     class Meta:
-        model = User
-        fields = ['username', 'password', 'confirm_password', 'birth_date', 'first_name', 'last_name', 'email']
+        model = Employee
+        fields = ['birthday', 'first_name', 'last_name', 'middle_name', 'user', 'position']
+
+

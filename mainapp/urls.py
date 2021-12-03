@@ -8,7 +8,7 @@ from mainapp.views import *
 urlpatterns = [
     path('accounts/login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
-    path('register/', RegistrationView.as_view(), name='register'),
+    path('register/', UserCreateView.as_view(), name='register'),
     path('', IndexView.as_view(), name='index'),
     path('organizations/', OrganizationListView.as_view(), name='organizations-list'),
     path('employees/', EmployeeListView.as_view(), name='employees-list')
