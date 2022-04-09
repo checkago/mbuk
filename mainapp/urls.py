@@ -11,7 +11,8 @@ urlpatterns = [
     path('register/', UserCreateView.as_view(), name='register'),
     path('', IndexView.as_view(), name='index'),
     path('organizations/', OrganizationListView.as_view(), name='organizations-list'),
-    path('employees/', EmployeeListView.as_view(), name='employees-list')
+    path('employees/', EmployeeListView.as_view(), name='employees-list'),
+    path('employee-create/', EmployeeCreateView.as_view(), name='employee_create'),
 ]
 
 

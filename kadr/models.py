@@ -75,7 +75,7 @@ class EmployeeCard(models.Model):
     sex = models.CharField(max_length=10, blank=True, null=True, choices=SEX_CHOICE, verbose_name='Пол')
     marital_status = models.CharField(max_length=25, blank=True, null=True, choices=MARRIED_STATUS_CHOICE,
                                       verbose_name='Семейное положение')
-    children = models.IntegerField(blank=True, verbose_name='Несовершеннолетние дети')
+    children = models.IntegerField(blank=True, null=True, verbose_name='Несовершеннолетние дети')
     main_address = models.ForeignKey(EmployeeAddress, blank=True, on_delete=models.CASCADE,
                                      related_name='employee_main_address', verbose_name='Адрес постоянной регистрации')
     place_of_stay_address = models.ForeignKey(EmployeeAddress, blank=True, null=True, on_delete=models.CASCADE,
@@ -87,7 +87,7 @@ class EmployeeCard(models.Model):
     adopted_date = models.DateField(blank=True, verbose_name='Принят')
     dismissed_date = models.DateField(blank=True, null=True, verbose_name='Дата увольнения')
     bib_experience_before = models.IntegerField(blank=True, null=True, verbose_name='Предыдущий стаж библиотечный')
-    experience_before = models.IntegerField(verbose_name='Предыдущий стаж полный')
+    experience_before = models.IntegerField(blank=True, null=True, verbose_name='Предыдущий стаж полный')
     digital_work_book = models.BooleanField(default=False, verbose_name='"Электронная')
     paper_work_book = models.BooleanField(default=False, verbose_name='Бумажная')
     paper_work_book_image = models.FileField(upload_to=file_upload_function, blank=True,
@@ -114,6 +114,10 @@ class EmployeeCard(models.Model):
     @property
     def age(self):
         return int((datetime.now().date() - self.employee.birthday).days / 365.25)
+
+    @property
+    def bib_experience_before_all(self):
+        return int(self.experience_current + self.bib_experience_before)
 
     @property
     def experience_full(self):

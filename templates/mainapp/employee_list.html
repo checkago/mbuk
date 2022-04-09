@@ -221,7 +221,7 @@
                                                     <td>{{ EmployeeCard.employee.position }}</td>
 													<td>{{ EmployeeCard.age }}</td>
 													<td>{{ EmployeeCard.experience_current }}</td>
-                                                    <td>{{ EmployeeCard.bib_experience_before|default_if_none:"нет" }}</td>
+                                                    <td>{{ EmployeeCard.bib_experience_before_all|default_if_none:"нет" }}</td>
                                                     <td>{{ EmployeeCard.experience_full }}</td>
                                                     <td><span class="label font-weight-bold label-lg  label-light-{{ EmployeeCard.status.color }} label-inline">{{ EmployeeCard.status.name }}</span></td>
 													<td nowrap="nowrap"></td>
