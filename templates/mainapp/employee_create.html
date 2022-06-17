@@ -1,7 +1,30 @@
-{% extends 'layout.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_field %}
 {% block content %}
+
+<div class="content-wrapper">
+        <div class="content-header">
+			<div class="d-flex align-items-center">
+				<div class="me-auto">
+					<h3 class="page-title">Сотрудники</h3>
+					<div class="d-inline-block align-items-center">
+						<nav>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+								<li class="breadcrumb-item active" aria-current="page">Сотрудники</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+
+			</div>
+		</div>
+    <section class="content">
+        <div class="box">
+        <div class="box-header">
+        </div>
+        <div class="box-body">
         <!--begin::Login-->
         <div class="login login-4 login-signin-on d-flex flex-row-fluid" id="kt_login">
             <div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url({% static 'assets/media/bg/bg-3.jpg' %});">
@@ -57,10 +80,9 @@
                     <!--begin::Login Sign up form-->
                     <div class="login-signup">
                         <div class="mb-20">
-                            <h3>Добавление нового сотрудника</h3>
                             <div class="text-muted font-weight-bold">Заполните все необходимые поля</div>
                         </div>
-                        <form class="form" method="post" action="{% url 'employee_create' %}">
+                        <form class="form" method="post" action="{% url 'employee-create' %}">
                             {% csrf_token %}
                             <div class="form-group mb-5">
                                 {% crispy_field form.user 'class' 'form-control' 'type' 'username' 'placeholder' 'Пользователь' %}
@@ -90,4 +112,8 @@
             </div>
         </div>
         <!--end::Login-->
+        </div>
+    </div>
+    </section>
+</div>
 {% endblock %}

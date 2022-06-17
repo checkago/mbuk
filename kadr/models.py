@@ -64,7 +64,7 @@ class EmployeeCard(models.Model):
     d_first_name = models.CharField(max_length=150, verbose_name='Имя "Кому?"')
     d_last_name = models.CharField(max_length=150, verbose_name='Фамилия "Кому?"')
     d_middle_name = models.CharField(max_length=150, verbose_name='Отчество "Кому?"')
-    image = models.ImageField(upload_to=image_upload_function, blank=True, verbose_name='Фото')
+    image = models.ImageField(upload_to=image_upload_function, blank=True, null=True, verbose_name='Фото')
 
     # ПАСПОРТНЫЕ ДАННЫЕ
     passport_serial = models.CharField(max_length=4, verbose_name='Серия паспорта')

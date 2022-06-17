@@ -1,3 +1,4 @@
+from django.shortcuts import render, get_object_or_404
 from django import views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
@@ -5,7 +6,6 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 
-from mainapp import forms
 from mainapp.models import Organization, BranchOffice, Department, Employee, OrganizationBankAccount, Position
 from kadr.models import EmployeeCard
 from guide.models import Bank, Address
@@ -124,7 +124,7 @@ class OrganizationListView(LoginRequiredMixin, ListView):
 
 class EmployeeListView(LoginRequiredMixin, ListView):
 
-    model = EmployeeCard
+    model = Employee
     template_name = 'mainapp/employee_list.html'
 
     def get_context_data(self, **kwargs):

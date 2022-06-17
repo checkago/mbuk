@@ -12,10 +12,11 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('organizations/', OrganizationListView.as_view(), name='organizations-list'),
     path('employees/', EmployeeListView.as_view(), name='employees-list'),
-    path('employee-create/', EmployeeCreateView.as_view(), name='employee_create'),
+    path('employees/employee-create', EmployeeCreateView.as_view(), name='employee-create')
 ]
 
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
