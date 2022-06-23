@@ -5,9 +5,7 @@ from kadr.views import *
 
 
 urlpatterns = [
-    path('employeescard-list/', EmployeeCardListView.as_view(), name='employees-card-list'),
-    path('employeecard-create/', EmployeeCardCreateView.as_view(), name='employeecard-create'),
-    path('employees/<int:pk>/', employee_card_view, name='employee_card_view'),
+    path('employeecard-create/', EmployeeCardCreateView.as_view(), name='employeecard_create'),
 ]
 
 

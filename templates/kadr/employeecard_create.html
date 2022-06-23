@@ -1,210 +1,135 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
 {% load static %}
 {% load crispy_forms_field %}
 {% block content %}
-{% crispy_field form.employee 'class' 'form-control' 'placeholder' '' %}
-<div class="content-wrapper">
-	  <div class="container-full">
-		<!-- Content Header (Page header) -->
-		<div class="content-header">
-			<div class="d-flex align-items-center">
-				<div class="me-auto">
-					<h3 class="page-title">Форма создания карточки сотрудника</h3>
-					<div class="d-inline-block align-items-center">
-						<nav>
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
-								<li class="breadcrumb-item" aria-current="page">Кадры</li>
-								<li class="breadcrumb-item active" aria-current="page">Карточка сотрудника</li>
-							</ol>
-						</nav>
-					</div>
-				</div>
+        <!--begin::Login-->
+        <div class="login login-4 login-signin-on d-flex flex-row-fluid" id="kt_login">
+            <div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url({% static 'assets/media/bg/bg-3.jpg' %});">
+                <div class="login-form text-center p-7 position-relative overflow-hidden">
+                    <!--begin::Login Header-->
+                    <div class="d-flex flex-center mb-15">
+                        <a href="#">
+                            <img src="{% static 'assets/media/logos/logo-letter-13.png' %}" class="max-h-75px" alt="" />
+                        </a>
+                    </div>
+                    <!--end::Login Header-->
+                    <div class="container">
+                        {% for error in form.errors.birth_date %}
+                        <div class="alert border-0 alert-dismissible fade show py-2">
+                            <div class="d-flex align-items-center">
+                                <div class="font-35 text-white"><i class="bx bxs-message-square-x"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 text-white">Ошибка!</h6>
+                                    <div class="text-white">{{ error }}</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                        {% for error in form.errors.email %}
+                        <div class="alert border-0 alert-dismissible fade show py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="font-35 text-white"><i class="bx bxs-message-square-x"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="mb-0 text-white">Ошибка!</h6>
+                                        <div class="text-white">{{ error }}</div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                        {% for error in form.errors.username %}
+                        <div class="alert border-0 alert-dismissible fade show py-2">
+                            <div class="d-flex align-items-center">
+                                <div class="font-35 text-white"><i class="bx bxs-message-square-x"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 text-white">Ошибка!</h6>
+                                    <div class="text-white">{{ error }}</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!--begin::Login Sign up form-->
+                    <div class="login-signup">
+                        <div class="mb-20">
+                            <h3>Добавление нового сотрудника</h3>
+                            <div class="text-muted font-weight-bold">Заполните все необходимые поля</div>
+                        </div>
+                        <form class="form" method="post" action="{% url 'employeecard_create' %}">
+                            {% csrf_token %}
+                            <div class="form-group mb-5">
+                                {% crispy_field form.employee 'class' 'form-control' 'placeholder' 'Сотрудник' %}
+                            </div>
+                            <div class="col-4 form-group mb-5">
+                                {% crispy_field form.branch_office 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Отдел' %}
+                            </div>
+                            <div class="row">
+                                <div class="col-4 form-group mb-5">
+                                    {% crispy_field form.r_last_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Ч_Фамилия' %}
+                                </div>
+                                <div class="col-4 form-group mb-5">
+                                    {% crispy_field form.r_first_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Ч_Имя' %}
+                                </div>
+                                <div class="col-4 form-group mb-5">
+                                    {% crispy_field form.r_middle_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Ч_Отчество' %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 form-group mb-5">
+                                    {% crispy_field form.d_last_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Д_Фамилия' %}
+                                </div>
+                                <div class="col-4 form-group mb-5">
+                                    {% crispy_field form.d_first_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Д_Имя' %}
+                                </div>
+                                <div class="col-4 form-group mb-5">
+                                    {% crispy_field form.d_middle_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Д_Отчество' %}
+                                </div>
+                            </div>
+                            <div class="form-group mb-5">
+                                {% crispy_field form.image 'class' 'form-control' 'type' 'file' 'placeholder' 'Фото' %}
+                            </div>
 
-			</div>
-		</div>
-
-		<!-- Main content -->
-        <section class="content">
-		  <!-- Validation wizard -->
-		  <div class="box">
-			<div class="box-header with-border">
-			  <h4 class="box-title"></h4>
-			  <h6 class="box-subtitle"></h6>
-			</div>
-			<!-- /.box-header -->
-			<div class="box-body wizard-content">
-				<form action="#" class="validation-wizard wizard-circle">
-					<!-- Step 1 -->
-					<h6>Personal Info</h6>
-					<section>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="wfirstName2" class="form-label"> First Name : <span class="danger">*</span> </label>
-									<input type="text" class="form-control required" id="wfirstName2" name="firstName">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="wlastName2" class="form-label"> Last Name : <span class="danger">*</span> </label>
-									<input type="text" class="form-control required" id="wlastName2" name="lastName">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="wemailAddress2" class="form-label"> Email Address : <span class="danger">*</span> </label>
-									<input type="email" class="form-control required" id="wemailAddress2" name="emailAddress">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="wphoneNumber2" class="form-label">Phone Number :</label>
-									<input type="tel" class="form-control" id="wphoneNumber2">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="wlocation2" class="form-label"> Select City : <span class="danger">*</span> </label>
-									<select class="form-select required" id="wlocation2" name="location">
-										<option value="">Select City</option>
-										<option value="India">India</option>
-										<option value="USA">USA</option>
-										<option value="Dubai">Dubai</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="wdate2" class="form-label">Date of Birth :</label>
-									<input type="date" class="form-control" id="wdate2">
-								</div>
-							</div>
-						</div>
-					</section>
-					<!-- Step 2 -->
-					<h6>Job Status</h6>
-					<section>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="jobTitle3" class="form-label">Company Name :</label>
-									<input type="text" class="form-control required" id="jobTitle3">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="webUrl3" class="form-label">Company URL :</label>
-									<input type="url" class="form-control required" id="webUrl3" name="webUrl3">
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="form-group">
-									<label for="shortDescription3" class="form-label">Short Description :</label>
-									<textarea name="shortDescription" id="shortDescription3" rows="6" class="form-control"></textarea>
-								</div>
-							</div>
-						</div>
-					</section>
-					<!-- Step 3 -->
-					<h6>Interview</h6>
-					<section>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="wint1" class="form-label">Interview For :</label>
-									<input type="text" class="form-control required" id="wint1">
-								</div>
-								<div class="form-group">
-									<label for="wintType1" class="form-label">Interview Type :</label>
-									<select class="form-select required" id="wintType1" data-placeholder="Type to search cities" name="wintType1">
-										<option value="Banquet">Normal</option>
-										<option value="Fund Raiser">Difficult</option>
-										<option value="Dinner Party">Hard</option>
-									</select>
-								</div>
-								<div class="form-group">
-									<label for="wLocation1" class="form-label">Location :</label>
-									<select class="form-select required" id="wLocation1" name="wlocation">
-										<option value="">Select City</option>
-										<option value="India">India</option>
-										<option value="USA">USA</option>
-										<option value="Dubai">Dubai</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="wjobTitle4" class="form-label">Interview Date :</label>
-									<input type="date" class="form-control required" id="wjobTitle4">
-								</div>
-								<div class="form-group">
-									<label class="form-label">Requirements :</label>
-										<input name="group2" type="radio" id="radio_3" value="1">
-										<label for="radio_3" class="d-block">Employee</label>
-										<input name="group2" type="radio" id="radio_4" value="1">
-										<label for="radio_4">Contract</label>
-								</div>
-							</div>
-						</div>
-					</section>
-					<!-- Step 4 -->
-					<h6>Remark</h6>
-					<section>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="behName3" class="form-label">Behaviour :</label>
-									<input type="text" class="form-control required" id="behName3">
-								</div>
-								<div class="form-group">
-									<label for="participants3" class="form-label">Confidance</label>
-									<input type="text" class="form-control required" id="participants3">
-								</div>
-								<div class="form-group">
-									<label for="participants4" class="form-label">Result</label>
-									<select class="form-select required" id="participants4" name="location">
-										<option value="">Select Result</option>
-										<option value="Selected">Selected</option>
-										<option value="Rejected">Rejected</option>
-										<option value="Call Second-time">Call Second-time</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="decisions2" class="form-label">Comments</label>
-									<textarea name="decisions" id="decisions2" rows="4" class="form-control"></textarea>
-								</div>
-								<div class="form-group">
-									<label class="form-label">Rate Interviwer :</label>
-									<div class="c-inputs-stacked">
-										<input type="checkbox" id="checkbox_6">
-										<label for="checkbox_6" class="d-block">1 star</label>
-										<input type="checkbox" id="checkbox_7">
-										<label for="checkbox_7" class="d-block">2 star</label>
-										<input type="checkbox" id="checkbox_8">
-										<label for="checkbox_8" class="d-block">3 star</label>
-										<input type="checkbox" id="checkbox_9">
-										<label for="checkbox_9" class="d-block">4 star</label>
-										<input type="checkbox" id="checkbox_10">
-										<label for="checkbox_10" class="d-block">5 star</label>
-									</div>
-								</div>
-							</div>
-						</div>
-					</section>
-				</form>
-			</div>
-			<!-- /.box-body -->
-		  </div>
-		  <!-- /.box -->
-		</section>
-		<!-- /.content -->
-	  </div>
-  </div>
+                            <!-- ПАСПОРТНЫЕ ДАННЫЕ -->
+                            <div class="form-group mb-5">
+                                {% crispy_field form.passport_serial 'class' 'form-control' 'placeholder' 'passport_serial' %}
+                            </div>
+                            <div class="form-group mb-5">
+                                {% crispy_field form.passport_number 'class' 'form-control' 'placeholder' 'passport_number' %}
+                            </div>
+                            <div class="form-group mb-5">
+                                {% crispy_field form.passport_issuing 'class' 'form-control' 'placeholder' 'passport_issuing' %}
+                            </div>
+                            <div class="form-group mb-5">
+                                {% crispy_field form.passport_date_of_issue 'class' 'form-control' 'type' 'date' 'placeholder' 'passport_date_of_issue' %}
+                            </div>
+                            <div class="form-group mb-5">
+                                {% crispy_field form.issuing_office_number 'class' 'form-control' 'placeholder' 'issuing_office_number' %}
+                            </div>
+                            <div class="form-group mb-5">
+                                {% crispy_field form.sex 'class' 'form-control' 'placeholder' 'sex' %}
+                            </div>
+                            <div class="form-group mb-5">
+                                {% crispy_field form.marital_status 'class' 'form-control' 'placeholder' 'marital_status' %}
+                            </div>
+                            <div class="form-group mb-5">
+                                {% crispy_field form.children 'class' 'form-control' 'placeholder' 'children' %}
+                            </div>
+                            <div class="form-group mb-5">
+                                {% crispy_field form.main_address 'class' 'form-control' 'placeholder' 'main_address' %}
+                            </div>
+                            <div class="form-group d-flex flex-wrap flex-center mt-10">
+                                <button type="submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-2">Создать</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!--end::Login Sign up form-->
+                </div>
+            </div>
+        </div>
+        <!--end::Login-->
 {% endblock %}

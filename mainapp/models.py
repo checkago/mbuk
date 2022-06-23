@@ -94,7 +94,7 @@ class Department(models.Model):
 class Position(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование')
     submission = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='childs',
-                                   null=True, blank=True, verbose_name='Подчиняется')
+                               null=True, blank=True, verbose_name='Подчиняется')
 
     class Meta:
         verbose_name = 'Должность'
