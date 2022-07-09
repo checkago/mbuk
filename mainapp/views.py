@@ -4,11 +4,8 @@ from django.views.generic.list import ListView
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
-
-from mainapp import forms
-from mainapp.models import Organization, BranchOffice, Department, Employee, OrganizationBankAccount, Position
+from mainapp.models import Organization, BranchOffice, Department, Employee, OrganizationBankAccount
 from kadr.models import EmployeeCard
-from guide.models import Bank, Address
 from mainapp.forms import LoginForm, UserCreateForm, EmployeeCreateForm
 from django.contrib.auth import get_user_model
 
@@ -130,4 +127,3 @@ class EmployeeListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-

@@ -1,5 +1,5 @@
 from django import forms
-from mainapp.models import Employee, Position
+from mainapp.models import Employee
 
 from django.contrib.auth import get_user_model
 
@@ -10,14 +10,15 @@ class LoginForm(forms.ModelForm):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Username",
-                "class": "form-control"
+                "placeholder": "Логин",
+                "class": "form-control ps-15 bg-transparent"
             }
         ))
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "placeholder": "Password", "class": "form-control"
+                "placeholder": "Пароль",
+                "class": "form-control ps-15 bg-transparent"
             }
         ))
 
@@ -84,5 +85,3 @@ class EmployeeCreateForm(forms.ModelForm):
     class Meta:
         model = Employee
         fields = ['birthday', 'first_name', 'last_name', 'middle_name', 'user', 'position']
-
-
