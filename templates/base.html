@@ -429,15 +429,43 @@
 	<script src="{%  static 'js/vendors.min.js' %}"></script>
 	<script src="{%  static 'js/pages/chat-popup.js' %}"></script>
     <script src="{% static 'assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'assets/vendor_components/jquery-steps-master/build/jquery.steps.js' %}"></script>
 
 	<script src="{% static 'assets/vendor_components/apexcharts-bundle/dist/apexcharts.js' %}"></script>
 	<script src="{% static 'assets/vendor_components/moment/min/moment.min.js' %}"></script>
 	<script src="{% static 'assets/vendor_components/fullcalendar/fullcalendar.js' %}"></script>
+    <script src="{% static 'assets/vendor_components/fullcalendar/locale/ru.js' %}"></script>
+    <script src="{% static 'assets/vendor_components/datatable/datatables.min.js' %}"></script>
+
 
 	<!-- EduAdmin App -->
 	<script src="{%  static 'js/template.js' %}"></script>
 	<script src="{%  static 'js/pages/dashboard.js' %}"></script>
 	<script src="{%  static 'js/pages/calendar.js' %}"></script>
+    <script src="{% static 'js/pages/data-table.js' %}"></script>
+    <script src="{% static 'js/pages/steps.js' %}"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#example22').DataTable( {
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Все"]],
+                "paging":   true,
+                "ordering": true,
+                "info":     true,
+                "search": true,
+                "language": {
+                    url: '{% static 'css/ru.json' %}'
+                }
+            } );
+        } );
+    </script>
+
+    <script>
+        var calendar = new FullCalendar.Calendar(calendar, {
+          locale: 'ru'
+        });
+    </script>
 
 </body>
 </html>

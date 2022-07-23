@@ -29,3 +29,15 @@ class Address(models.Model):
 
     def __str__(self):
         return f"{self.city}, {self.neighborhood}, {self.street}, {self.building}"
+
+
+class Label(models.Model):
+    name = models.CharField(max_length=20, verbose_name='Название')
+    color = models.CharField(max_length=20, verbose_name='Цвет')
+
+    class Meta:
+        verbose_name = 'Цвет'
+        verbose_name_plural = 'Цвета'
+
+    def __str__(self):
+        return self.name

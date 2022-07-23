@@ -2,11 +2,12 @@ from django.db import models
 from datetime import datetime
 from utils import image_upload_function, file_upload_function
 from mainapp.models import Employee, Position, Organization, BranchOffice
+from guide.models import Label
 
 
 class EmployeeStatus(models.Model):
     name = models.CharField(max_length=150, verbose_name='Нименование')
-    color = models.CharField(max_length=50, blank=True, verbose_name='Цвет')
+    color = models.ForeignKey(Label, max_length=50, blank=True, on_delete=models.CASCADE, verbose_name='Цвет')
 
     class Meta:
         verbose_name = 'Статус сотрудника'
@@ -76,9 +77,9 @@ class EmployeeCard(models.Model):
     marital_status = models.CharField(max_length=25, blank=True, null=True, choices=MARRIED_STATUS_CHOICE,
                                       verbose_name='Семейное положение')
     children = models.IntegerField(blank=True, null=True, verbose_name='Несовершеннолетние дети')
-    main_address = models.ForeignKey(EmployeeAddress, blank=True, on_delete=models.CASCADE,
+    main_address = models.ForeignKey(EmployeeAddress, blank=True, on_delete=models.SET_NULL, null=True,
                                      related_name='employee_main_address', verbose_name='Адрес постоянной регистрации')
-    place_of_stay_address = models.ForeignKey(EmployeeAddress, blank=True, null=True, on_delete=models.CASCADE,
+    place_of_stay_address = models.ForeignKey(EmployeeAddress, blank=True, null=True, on_delete=models.SET_NULL,
                                               related_name='employee_place_of_stay_address',
                                               verbose_name='Фактический адрес проживания')
 
@@ -88,8 +89,8 @@ class EmployeeCard(models.Model):
     dismissed_date = models.DateField(blank=True, null=True, verbose_name='Дата увольнения')
     bib_experience_before = models.IntegerField(blank=True, null=True, verbose_name='Предыдущий стаж библиотечный')
     experience_before = models.IntegerField(blank=True, null=True, verbose_name='Предыдущий стаж полный')
-    digital_work_book = models.BooleanField(default=False, verbose_name='"Электронная')
-    paper_work_book = models.BooleanField(default=False, verbose_name='Бумажная')
+    digital_work_book = models.BooleanField(default=False, blank=True, verbose_name='"Электронная')
+    paper_work_book = models.BooleanField(default=False, blank=True, verbose_name='Бумажная')
     paper_work_book_image = models.FileField(upload_to=file_upload_function, blank=True,
                                              verbose_name='Скан бумажной трудовой')
 
@@ -97,15 +98,23 @@ class EmployeeCard(models.Model):
     # Заявление о приеме на работу
     appliccaton_for_employment = models.ForeignKey('ApplicationForEmployment', on_delete=models.SET_NULL,
                                                    blank=True, null=True, verbose_name='Заявление о приеме на работу')
+    # Заявление о переводе
+    appliccaton_for_transfer = models.ForeignKey('ApplicationForPositionTransfer', on_delete=models.SET_NULL,
+                                                   blank=True, null=True, verbose_name='Заявление о приеме на работу')
     # Приказ о приеме на работу
     order_for_employment = models.ForeignKey('OrderForEmployment', on_delete=models.SET_NULL, blank=True, null=True,
                                              verbose_name='Приказ о приеме на работу')
     # Трудовой договор
     work_contract = models.ForeignKey('WorkContract', on_delete=models.SET_NULL, blank=True, null=True,
                                       verbose_name='Трудовой договор')
+    # Должностные инструкции
+    position_instruction = models.ForeignKey('PositionInstruction', on_delete=models.SET_NULL, blank=True, null=True,
+                                             verbose_name='Должностные инструкции')
     #Соглашение о персональных данных
-    covid_certificate = models.ForeignKey('CovidCertificate', on_delete=models.CASCADE, blank=True, null=True,
-                                          verbose_name='Сертификат вакцинированного')
+    covid_certificate = models.FileField(blank=True, verbose_name='Сертификат вакцинированного')
+
+    appliccaton_for_dissmiss = models.ForeignKey('ApplicationForDismissal', on_delete=models.SET_NULL,
+                                                   blank=True, null=True, verbose_name='Заявление на увольнение')
 
     @property
     def experience_current(self):
@@ -122,6 +131,10 @@ class EmployeeCard(models.Model):
     @property
     def experience_full(self):
         return int(self.experience_current + self.experience_before)
+
+    @property
+    def label(self):
+        return Label.objects.order_by("?").first()
 
     class Meta:
         verbose_name = 'Карточка сотрудника'
@@ -174,6 +187,21 @@ class ApplicationForDismissal(models.Model):
         return f"увольнение №{self.internal_number} от {self.date} с должности {self.position}"
 
 
+class ApplicationForPositionTransfer(models.Model):
+    internal_number = models.CharField(max_length=10, blank=True, verbose_name='Внутренний номер')
+    date = models.DateField(verbose_name='Дата')
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
+    reason = models.ForeignKey('Reason', blank=True, on_delete=models.SET_NULL, null=True, verbose_name='Причина')
+    application_scan = models.FileField(upload_to=file_upload_function, verbose_name='Скан заявления')
+
+    class Meta:
+        verbose_name = 'Заявление на перевод'
+        verbose_name_plural = 'Заявления на перевод'
+
+    def __str__(self):
+        return f"перевод №{self.internal_number} от {self.date} на должность {self.position}"
+
+
 class OrderForEmployment(models.Model):
     number = models.CharField(max_length=10, verbose_name='Номер')
     date = models.DateField(verbose_name='Дата')
@@ -199,6 +227,21 @@ class WorkContract(models.Model):
     class Meta:
         verbose_name = 'Трудовой договор'
         verbose_name_plural = 'Трудовые договоры'
+
+    def __str__(self):
+        return f"{self.number}/{self.date} ({self.employee})"
+
+
+class PositionInstruction(models.Model):
+    date = models.DateField(verbose_name='Дата')
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, verbose_name='Организация')
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
+    file = models.FileField(upload_to=file_upload_function, verbose_name='Файл инструкций')
+
+    class Meta:
+        verbose_name = 'Должностная инструкция'
+        verbose_name_plural = 'Должностные инструкции'
 
     def __str__(self):
         return f"{self.number}/{self.date} ({self.employee})"

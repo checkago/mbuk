@@ -1,0 +1,108 @@
+{% extends 'layout.html' %}
+{% load static %}
+<!--begin::Entry-->
+{% block content %}
+
+    <!-- Main content -->
+<div class="content-wrapper">
+    <section class="content">
+        <!-- Content Header (Page header) -->
+		<div class="content-header">
+			<div class="d-flex align-items-center">
+				<div class="me-auto">
+					<h3 class="page-title">Карточки сотрудников</h3>
+					<div class="d-inline-block align-items-center">
+						<nav>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="mdi mdi-home-outline"></i></a></li>
+								<li class="breadcrumb-item" aria-current="page">Организация</li>
+								<li class="breadcrumb-item active" aria-current="page">Карточки сотрудников</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+
+			</div>
+		</div>
+        <div class="row">
+            <div class="col-12">
+
+			 <div class="box">
+				<div class="box-header with-border">
+				    <h3 class="box-title">Список</h3>
+                    <a href="{% url 'employeecard_create' %}" class="btn btn-primary float-end">Создать карточку</a>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body">
+					<div class="table-responsive">
+					  <table id="example22" class="table table-bordered table-striped">
+						<thead class="bg-info">
+							<tr>
+								<th>ФИО</th>
+                                <th>Должность</th>
+                                <th>Возраст</th>
+                                <th>Стаж в ЦБС</th>
+                                <th>Библиотечный стаж</th>
+                                <th>Общий стаж</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+							</tr>
+						</thead>
+						<tbody>
+                        {% for EmployeeCard in object_list %}
+                            <tr>
+                                <td>
+                                    {% if EmployeeCard.image is empty %}
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-15 w-50 d-table font-weight-bold">
+                                            <div class="avatar avatar-lg rounded10 {{ EmployeeCard.label.color }}">{{ EmployeeCard.employee.last_name|slice:":1" }}</div>
+                                        </div>
+                                        <div class="ml-3">
+                                            <a href="#" class="text-muted text-hover-primary"><span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ EmployeeCard.employee.last_name }} {{ EmployeeCard.employee.first_name }}</span> {{ EmployeeCard.employee.middle_name }}</a>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-15 w-50 d-table">
+                                            <img src="{{ EmployeeCard.image.url }}" class="avatar avatar-lg rounded10 bg-primary-light" alt="photo">
+                                        </div>
+                                        <div class="ml-3">
+                                            <a href="#" class="text-muted text-hover-primary"><span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ EmployeeCard.employee.last_name }} {{ EmployeeCard.employee.first_name }}</span> {{ EmployeeCard.employee.middle_name }}</a>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                                <td>{{ EmployeeCard.employee.position }}</td>
+                                <td>{{ EmployeeCard.age }}</td>
+                                <td>{{ EmployeeCard.experience_current }}</td>
+                                <td>{{ EmployeeCard.bib_experience_before_all|default_if_none:"нет" }}</td>
+                                <td>{{ EmployeeCard.experience_full }}</td>
+                                <td><span class="label font-weight-bold label-lg  {{ EmployeeCard.status.color.color }} label-inline">{{ EmployeeCard.status.name }}</span></td>
+                                <td nowrap="nowrap"></td>
+                            </tr>
+                        {% endfor %}
+						</tbody>
+						<tfoot class="bg-info">
+							<tr>
+								<th>ФИО</th>
+                                <th>Должность</th>
+                                <th>Возраст</th>
+                                <th>Стаж в ЦБС</th>
+                                <th>Библиотечный стаж</th>
+                                <th>Общий стаж</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+							</tr>
+						</tfoot>
+					  </table>
+					</div>
+				</div>
+				<!-- /.box-body -->
+			  </div>
+			  <!-- /.box -->
+			</div>
+        </div>
+    </section>
+</div>
+<!-- /.content -->
+{% endblock %}

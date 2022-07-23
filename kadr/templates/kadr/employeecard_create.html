@@ -1,0 +1,392 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load crispy_forms_field %}
+{% block content %}
+
+    <div class="content-wrapper">
+        <div class="container-full">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="d-flex align-items-center">
+                <div class="me-auto">
+                    <h3 class="page-title">Создание карточки сотрудника</h3>
+                    <div class="d-inline-block align-items-center">
+                        <nav>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="mdi mdi-home-outline"></i></a></li>
+                                <li class="breadcrumb-item" aria-current="#">Сотрудники</li>
+                                <li class="breadcrumb-item active" aria-current="#">Создание карточки</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+
+          <!-- vertical wizard -->
+          <div class="box">
+            <div class="box-header with-border">
+              <h4 class="box-title">Пошаговая форма</h4>
+              <h6 class="box-subtitle">Заполняйте необходимые поля на каждом шаге</h6>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body wizard-content">
+                <form class="tab-wizard vertical wizard-circle">
+                    {% csrf_token %}
+                    <!-- Step 1 -->
+                    <h6>Начальные данные</h6>
+                    <section>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Сотрудник :</label>
+                                    {% crispy_field form.employee 'class' 'form-control' %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Филиал :</label>
+                                    {% crispy_field form.branch_office 'class' 'form-control' %}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <h5>ФИО в родительном падеже</h5>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Фамилия :</label>
+                                    {% crispy_field form.r_last_name 'class' 'form-control' %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Имя :</label>
+                                    {% crispy_field form.r_first_name 'class' 'form-control' %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Отчество :</label>
+                                    {% crispy_field form.r_middle_name 'class' 'form-control' %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h5>ФИО в дательном падеже</h5>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Фамилия :</label>
+                                    {% crispy_field form.d_last_name 'class' 'form-control' %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Имя :</label>
+                                    {% crispy_field form.d_first_name 'class' 'form-control' %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Отчество :</label>
+                                    {% crispy_field form.d_middle_name 'class' 'form-control' %}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Фото :</label>
+                                    {% crispy_field form.image 'class' 'form-control' 'type' 'file' %}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Step 2 -->
+                    <h6>Документы</h6>
+                    <section>
+                        <div class="row">
+                            <div class="col-md-6 be-1 border-primary">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Серия :</label>
+                                            {% crispy_field form.passport_serial 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Номер :</label>
+                                            {% crispy_field form.passport_number 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Дата выдачи :</label>
+                                            {% crispy_field form.passport_date_of_issue 'class' 'form-control' 'type' 'date' %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Кем выдан :</label>
+                                            {% crispy_field form.passport_issuing 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Код :</label>
+                                            {% crispy_field form.issuing_office_number 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="jobTitle6" class="form-label">СНИЛС :</label>
+                                            <input type="text" class="form-control" id="jobTitle6">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="videoUrl2" class="form-label">ИНН :</label>
+                                            <input type="text" class="form-control" id="videoUrl2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="jobTitle6" class="form-label">Пол :</label>
+                                            {% crispy_field form.sex 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="videoUrl2" class="form-label">Семейный статус :</label>
+                                            {% crispy_field form.marital_status 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="videoUrl2" class="form-label">Несоврешеннолетние дети :</label>
+                                            {% crispy_field form.children 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label for="videoUrl2" class="form-label">Адрес регистрации :</label>
+                                            {% crispy_field form.main_address 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 pt-4">
+                                        <a class="btn btn-primary"><i class="fa fa-plus"></i></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label for="videoUrl2" class="form-label">Адрес проживания :</label>
+                                            {% crispy_field form.main_address 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 pt-4">
+                                        <a class="btn btn-primary"><i class="fa fa-plus"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Step 3 -->
+                    <h6>Работа/Стаж</h6>
+                    <section>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="int2" class="form-label">Статус :</label>
+                                    {% crispy_field form.status 'class' 'form-control' %}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="intType3" class="form-label">Принят :</label>
+                                            {% crispy_field form.adopted_date 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="Location4" class="form-label">Уволен :</label>
+                                            {% crispy_field form.dismissed_date 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="intType3" class="form-label">Предыдущий стаж библиотечный :</label>
+                                            {% crispy_field form.bib_experience_before 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="intType3" class="form-label">Предыдущий стаж полный :</label>
+                                            {% crispy_field form.experience_before 'class' 'form-control' %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="checkbox checkbox-success">
+                                                {% crispy_field form.digital_work_book 'id' 'checkbox1' %}
+                                                <label for="checkbox1"> Электронная трудовая" </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="checkbox checkbox-success">
+                                                {% crispy_field form.paper_work_book 'id' 'checkbox2' %}
+                                                <label for="checkbox2"> Бумажная трудовая </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="intType3" class="form-label">Скан бумажной трудовой :</label>
+                                            {% crispy_field form.paper_work_book_image 'class' 'form-control' 'type' 'file' %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Step 4 -->
+                    <h6>Кадровые документы</h6>
+                    <section>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label for="behName2" class="form-label">Заявление о приеме на работу :</label>
+                                                    {% crispy_field form.appliccaton_for_employment 'class' 'form-control' %}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 pt-4">
+                                                <a class="btn btn-primary"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label for="behName2" class="form-label">Заявление на перевод :</label>
+                                                    {% crispy_field form.appliccaton_for_transfer 'class' 'form-control' %}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 pt-4">
+                                                <a class="btn btn-primary"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label for="participants5" class="form-label">Приказ о приеме на работу</label>
+                                                    {% crispy_field form.order_for_employment 'class' 'form-control' %}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 pt-4">
+                                                <a class="btn btn-primary"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label for="participants6" class="form-label">Трудовой договор</label>
+                                                    {% crispy_field form.work_contract 'class' 'form-control' %}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 pt-4">
+                                                <a class="btn btn-primary"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label for="participants6" class="form-label">Должностные инструкции</label>
+                                                    {% crispy_field form.position_instruction 'class' 'form-control' %}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 pt-4">
+                                                <a class="btn btn-primary"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="decisions3" class="form-label">Сертификат вакцинированного</label>
+                                                    {% crispy_field form.covid_certificate 'class' 'form-control' 'type' 'file' %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label for="behName2" class="form-label">Заявление на увольнение :</label>
+                                                    {% crispy_field form.appliccaton_for_dissmiss 'class' 'form-control' %}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 pt-4">
+                                                <a class="btn btn-primary"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </section>
+                </form>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </section>
+        <!-- /.content -->
+      </div>
+    </div>
+
+{% endblock %}

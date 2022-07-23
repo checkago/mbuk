@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django import views
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.list import ListView
 from django.http import HttpResponseRedirect
 from kadr.models import EmployeeCard
 from kadr.forms import EmployeeCardCreateForm
@@ -32,3 +34,13 @@ class EmployeeCardCreateView(views.View):
             'form': form
         }
         return render(request, 'kadr/employeecard_create.html', context)
+
+
+class EmployeeCardListView(LoginRequiredMixin, ListView):
+
+    model = EmployeeCard
+    template_name = 'kadr/employee_card_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

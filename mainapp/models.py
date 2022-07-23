@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
-from utils import image_upload_function, file_upload_function
-from guide.models import Bank, Address
+from utils import image_upload_function
+from guide.models import Bank, Address, Label
 
 
 class Organization(models.Model):
@@ -112,7 +112,12 @@ class Employee(models.Model):
     middle_name = models.CharField(max_length=150, blank=True, verbose_name='Отчество')
     birthday = models.DateField(null=True, verbose_name='Дата рождения')
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
-    salary = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True, verbose_name='Оклад')
+    salary = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, verbose_name='Оклад')
+
+    @property
+    def label(self):
+        return Label.objects.order_by("?").first()
+
 
     class Meta:
         verbose_name = 'Сотрудник'

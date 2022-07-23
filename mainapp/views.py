@@ -5,7 +5,6 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from mainapp.models import Organization, BranchOffice, Department, Employee, OrganizationBankAccount
-from kadr.models import EmployeeCard
 from mainapp.forms import LoginForm, UserCreateForm, EmployeeCreateForm
 from django.contrib.auth import get_user_model
 
@@ -95,6 +94,7 @@ class EmployeeCreateView(views.View):
 class IndexView(LoginRequiredMixin, views.View):
 
     def get(self, request, *args, **kwargs):
+        employee = Employee.objects.get(user=request.user)
         organization = Organization.objects.all().filter(primary=True)
         branch_offices = BranchOffice.objects.all()
         departments = Department.objects.all()
@@ -105,7 +105,8 @@ class IndexView(LoginRequiredMixin, views.View):
             'branch_offices': branch_offices,
             'departments': departments,
             'bank_accounts': bank_accounts,
-            'employees': employees
+            'employees': employees,
+            'employee': employee
         }
         return render(request, 'index.html', context)
 
@@ -121,7 +122,7 @@ class OrganizationListView(LoginRequiredMixin, ListView):
 
 class EmployeeListView(LoginRequiredMixin, ListView):
 
-    model = EmployeeCard
+    model = Employee
     template_name = 'mainapp/employee_list.html'
 
     def get_context_data(self, **kwargs):
