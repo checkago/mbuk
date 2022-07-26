@@ -51,7 +51,7 @@ class EmployeeCardEditView(views.View):
         form = EmployeeCardCreateForm(request.POST or None, instance=employee_card)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/employees')
+            return HttpResponseRedirect('/employees-card-list')
         context = {
             'form': form
         }
