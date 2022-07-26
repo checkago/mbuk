@@ -6,7 +6,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     volumes:
-      - ./:/usr/src/web
+      - ./:/usr/src/mbuk
     ports:
       - "8080:8080"
 
