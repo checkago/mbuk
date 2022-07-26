@@ -30,7 +30,7 @@
 			 <div class="box">
 				<div class="box-header with-border">
 				    <h3 class="box-title">Список</h3>
-                    <a href="{% url 'employeecard_create' %}" class="btn btn-primary float-end">Создать карточку</a>
+                    <a href="{% url 'employeecard_create' %}" class="btn btn-info float-end">Создать карточку</a>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -55,7 +55,7 @@
                                     {% if EmployeeCard.image is empty %}
                                     <div class="d-flex align-items-center">
                                         <div class="me-15 w-50 d-table font-weight-bold">
-                                            <div class="avatar avatar-lg rounded10 {{ EmployeeCard.label.color }}">{{ EmployeeCard.employee.last_name|slice:":1" }}</div>
+                                            <div class="avatar rounded10 bg-{{ EmployeeCard.label.color|random }}">{{ EmployeeCard.employee.last_name|slice:":1" }}</div>
                                         </div>
                                         <div class="ml-3">
                                             <a href="#" class="text-muted text-hover-primary"><span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ EmployeeCard.employee.last_name }} {{ EmployeeCard.employee.first_name }}</span> {{ EmployeeCard.employee.middle_name }}</a>
@@ -77,8 +77,12 @@
                                 <td>{{ EmployeeCard.experience_current }}</td>
                                 <td>{{ EmployeeCard.bib_experience_before_all|default_if_none:"нет" }}</td>
                                 <td>{{ EmployeeCard.experience_full }}</td>
-                                <td><span class="label font-weight-bold label-lg  {{ EmployeeCard.status.color.color }} label-inline">{{ EmployeeCard.status.name }}</span></td>
-                                <td nowrap="nowrap"></td>
+                                <td><span class="label font-weight-bold label-lg  bg-{{ EmployeeCard.employee.status.color.color }} label-inline">{{ EmployeeCard.employee.status.name }}</span></td>
+                                <td nowrap="nowrap">
+                                    <a href="{% url 'employeecard_edit' EmployeeCard.pk %}" type="button" class="btn btn-sm btn-warning">
+                                        <i class="ti-pencil"></i>
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
 						</tbody>

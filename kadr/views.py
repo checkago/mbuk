@@ -8,6 +8,7 @@ from kadr.forms import EmployeeCardCreateForm
 
 
 class EmployeeCardCreateView(views.View):
+
     def get(self, request, *args, **kwargs):
         form = EmployeeCardCreateForm(request.POST or None)
         context = {
@@ -26,14 +27,35 @@ class EmployeeCardCreateView(views.View):
             new_employeecard.d_first_name = form.cleaned_data['d_first_name']
             new_employeecard.d_last_name = form.cleaned_data['d_last_name']
             new_employeecard.d_middle_name = form.cleaned_data['d_middle_name']
-            new_employeecard.position = form.cleaned_data['position']
-            new_employeecard.birthday = form.cleaned_data['birthday']
             new_employeecard.save()
-            return HttpResponseRedirect('/employees')
+            return HttpResponseRedirect('/employees-card-list')
         context = {
             'form': form
         }
         return render(request, 'kadr/employeecard_create.html', context)
+
+
+class EmployeeCardEditView(views.View):
+
+    def get(self, request, pk, *args, **kwargs):
+        employee_card = EmployeeCard.objects.get(pk=self.kwargs.get('pk'))
+        form = EmployeeCardCreateForm(request.POST or None, instance=employee_card)
+        context = {
+            'form': form,
+            'employee_card': employee_card
+        }
+        return render(request, 'kadr/employeecard_edit.html', context)
+
+    def post(self, request, *args, **kwargs):
+        employee_card = EmployeeCard.objects.get(pk=self.kwargs.get('pk'))
+        form = EmployeeCardCreateForm(request.POST or None, instance=employee_card)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/employees')
+        context = {
+            'form': form
+        }
+        return render(request, 'kadr/employeecard_edit.html', context)
 
 
 class EmployeeCardListView(LoginRequiredMixin, ListView):

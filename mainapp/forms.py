@@ -82,6 +82,8 @@ class UserCreateForm(forms.ModelForm):
 
 class EmployeeCreateForm(forms.ModelForm):
 
+    birthday = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
+
     class Meta:
         model = Employee
-        fields = ['birthday', 'first_name', 'last_name', 'middle_name', 'user', 'position']
+        fields = ['birthday', 'first_name', 'last_name', 'middle_name', 'user', 'position', 'status']

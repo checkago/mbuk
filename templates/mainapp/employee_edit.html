@@ -1,0 +1,109 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load crispy_forms_field %}
+{% block content %}
+
+    <div class="content-wrapper">
+        <div class="container-full">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="d-flex align-items-center">
+                <div class="me-auto">
+                    <h3 class="page-title">Редактирование сотрудника</h3>
+                    <div class="d-inline-block align-items-center">
+                        <nav>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="mdi mdi-home-outline"></i></a></li>
+                                <li class="breadcrumb-item" aria-current="#">Сотрудники</li>
+                                <li class="breadcrumb-item active" aria-current="#">Редактирование</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+
+          <!-- vertical wizard -->
+          <div class="box">
+            <div class="box-header with-border">
+              <h4 class="box-title">Форма</h4>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body wizard-content">
+                <form class="form" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Пользователь :</label>
+                                        {% crispy_field form.user 'class' 'form-select' 'type' 'username' %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Должность :</label>
+                                        {% crispy_field form.position 'class' 'form-select' %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Статус :</label>
+                                        {% crispy_field form.status 'class' 'form-select' %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Фамилия :</label>
+                                    {% crispy_field form.last_name 'class' 'form-control' %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Имя :</label>
+                                    {% crispy_field form.first_name 'class' 'form-control' %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Отчество :</label>
+                                    {% crispy_field form.middle_name 'class' 'form-control' %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Дата рождения :</label>
+                                    {% crispy_field form.birthday 'class' 'form-control' 'type' 'date' %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Оклад :</label>
+                                    {% crispy_field form.salary 'class' 'form-control' %}
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-wrap flex-center mt-10">
+                                <button type="submit" class="btn btn-info font-weight-bold float-end">Сохранить</button>
+                            </div>
+                        </form>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </section>
+        <!-- /.content -->
+      </div>
+    </div>
+
+{% endblock %}

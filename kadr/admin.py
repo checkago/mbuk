@@ -3,7 +3,6 @@ from kadr.models import *
 
 
 admin.site.register(EmployeeAddress)
-admin.site.register(EmployeeStatus)
 admin.site.register(EmployeeCard)
 admin.site.register(ApplicationForEmployment)
 admin.site.register(ApplicationForTransfer)

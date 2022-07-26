@@ -4,6 +4,18 @@ from utils import image_upload_function
 from guide.models import Bank, Address, Label
 
 
+class EmployeeStatus(models.Model):
+    name = models.CharField(max_length=150, verbose_name='Нименование')
+    color = models.ForeignKey(Label, max_length=50, blank=True, on_delete=models.CASCADE, verbose_name='Цвет')
+
+    class Meta:
+        verbose_name = 'Статус сотрудника'
+        verbose_name_plural = 'Статусы сотрудников'
+
+    def __str__(self):
+        return self.name
+
+
 class Organization(models.Model):
     full_name = models.CharField(max_length=250, verbose_name='Полное наименование')
     short_name = models.CharField(max_length=250, verbose_name='Краткое наименование')
@@ -112,7 +124,7 @@ class Employee(models.Model):
     middle_name = models.CharField(max_length=150, blank=True, verbose_name='Отчество')
     birthday = models.DateField(null=True, verbose_name='Дата рождения')
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
-    salary = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, verbose_name='Оклад')
+    status = models.ForeignKey(EmployeeStatus, on_delete=models.SET_NULL, null=True, verbose_name='Рабочий статус')
 
     @property
     def label(self):

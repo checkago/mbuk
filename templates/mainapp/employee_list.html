@@ -30,6 +30,9 @@
 			 <div class="box">
 				<div class="box-header with-border">
 				  <h3 class="box-title">Список</h3>
+                    <a href="{% url 'employee_create' %}" type="button" class="btn btn-info float-end">
+                        Добавить сотрудника
+                    </a>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -43,7 +46,6 @@
                                 <th>Отчество</th>
                                 <th>Дата рождения</th>
                                 <th>Должность</th>
-                                <th>Оклад</th>
                                 <th>Статус</th>
                                 <th>Действия</th>
 							</tr>
@@ -54,10 +56,10 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="me-15 w-50 d-table font-weight-bold">
-                                            <div class="avatar avatar-lg rounded10 {{ Employee.label.color }}">{{ Employee.user.username|slice:":1" }}</div>
+                                            <div class="avatar rounded10 bg-{{ Employee.label.color }}">{{ Employee.user.username|slice:":1" }}</div>
                                         </div>
                                         <div class="ml-3">
-                                            <a href="#" class="text-muted text-hover-primary"><span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ Employee.user }}</a>
+                                            <a href="#" class="text-muted text-hover-primary"><span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ Employee.user }}</span></a>
                                         </div>
                                     </div>
                                 </td>
@@ -66,11 +68,11 @@
                                 <td>{{ Employee.middle_name }}</td>
                                 <td>{{ Employee.birthday }}</td>
                                 <td>{{ Employee.position }}</td>
-                                <td>{{ Employee.salary }}</td>
-                                <td><span class="label font-weight-bold label-lg  {{ Employee.employee_card.status.color.color }} label-inline">{{ Employee.employee_card.status }}</span></td>
+                                <td><span class="label font-weight-bold label-lg bg-{{ Employee.status.color.color }} label-inline">{{ Employee.status }}</span></td>
                                 <td nowrap="nowrap">
-                                    <a href="{% url 'employeecard_create' %}" class="btn btn-info"><i class="ti-eye"></i></a>
-                                    <a href="{% url 'employeecard_create' %}" class="btn btn-warning"><i class="ti-pencil"></i></a>
+                                    <a href="{% url 'employee_edit' Employee.pk %}" type="button" class="btn btn-sm btn-warning">
+                                        <i class="ti-pencil"></i>
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -83,7 +85,6 @@
                                 <th>Отчество</th>
                                 <th>Дата рождения</th>
                                 <th>Должность</th>
-                                <th>Оклад</th>
                                 <th>Статус</th>
                                 <th>Действия</th>
 							</tr>
@@ -97,6 +98,5 @@
 			</div>
         </div>
     </section>
-</div>
-<!-- /.content -->
+</div><!-- /.content -->
 {% endblock %}

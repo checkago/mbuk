@@ -5,18 +5,6 @@ from mainapp.models import Employee, Position, Organization, BranchOffice
 from guide.models import Label
 
 
-class EmployeeStatus(models.Model):
-    name = models.CharField(max_length=150, verbose_name='Нименование')
-    color = models.ForeignKey(Label, max_length=50, blank=True, on_delete=models.CASCADE, verbose_name='Цвет')
-
-    class Meta:
-        verbose_name = 'Статус сотрудника'
-        verbose_name_plural = 'Статусы сотрудников'
-
-    def __str__(self):
-        return self.name
-
-
 class EmployeeAddress(models.Model):
     region = models.CharField(max_length=150, verbose_name='Область/Край')
     district = models.CharField(max_length=150, blank=True, verbose_name='Район')
@@ -78,17 +66,16 @@ class EmployeeCard(models.Model):
                                       verbose_name='Семейное положение')
     children = models.IntegerField(blank=True, null=True, verbose_name='Несовершеннолетние дети')
     main_address = models.ForeignKey(EmployeeAddress, blank=True, on_delete=models.SET_NULL, null=True,
-                                     related_name='employee_main_address', verbose_name='Адрес постоянной регистрации')
-    place_of_stay_address = models.ForeignKey(EmployeeAddress, blank=True, null=True, on_delete=models.SET_NULL,
-                                              related_name='employee_place_of_stay_address',
-                                              verbose_name='Фактический адрес проживания')
+                                     related_name='employee_main_address', verbose_name='Адрес регистрации')
+    inn = models.CharField(max_length=10, blank=True, verbose_name='ИНН')
+    snils = models.CharField(max_length=11, blank=True, verbose_name='СНИЛС')
+    passport_copy = models.FileField(upload_to=file_upload_function, blank=True, verbose_name='Копия паспорта')
 
     # СВЕДЕНИЯ о РАБОТЕ и СТАЖ
-    status = models.ForeignKey(EmployeeStatus, on_delete=models.SET_NULL, null=True, verbose_name='Рабочий статус')
     adopted_date = models.DateField(blank=True, verbose_name='Принят')
     dismissed_date = models.DateField(blank=True, null=True, verbose_name='Дата увольнения')
-    bib_experience_before = models.IntegerField(blank=True, null=True, verbose_name='Предыдущий стаж библиотечный')
-    experience_before = models.IntegerField(blank=True, null=True, verbose_name='Предыдущий стаж полный')
+    bib_experience_before = models.IntegerField(default=0, blank=True, null=True, verbose_name='Предыдущий стаж библиотечный')
+    experience_before = models.IntegerField(default=0, blank=True, null=True, verbose_name='Предыдущий стаж полный')
     digital_work_book = models.BooleanField(default=False, blank=True, verbose_name='"Электронная')
     paper_work_book = models.BooleanField(default=False, blank=True, verbose_name='Бумажная')
     paper_work_book_image = models.FileField(upload_to=file_upload_function, blank=True,

@@ -6,7 +6,8 @@ from mainapp.models import Organization, \
     Department, \
     BranchOffice, \
     Position, \
-    Employee
+    Employee, \
+    EmployeeStatus
 
 
 class EmployeeResource(resources.ModelResource):
@@ -17,6 +18,7 @@ class EmployeeResource(resources.ModelResource):
 
 admin.site.register(Organization)
 admin.site.register(OrganizationBankAccount)
+admin.site.register(EmployeeStatus)
 admin.site.register(BranchOffice)
 admin.site.register(Department)
 admin.site.register(Position)

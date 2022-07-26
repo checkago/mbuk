@@ -2,92 +2,108 @@
 {% load static %}
 {% load crispy_forms_field %}
 {% block content %}
-        <!--begin::Login-->
-        <div class="login login-4 login-signin-on d-flex flex-row-fluid" id="kt_login">
-            <div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url({% static 'assets/media/bg/bg-3.jpg' %});">
-                <div class="login-form text-center p-7 position-relative overflow-hidden">
-                    <!--begin::Login Header-->
-                    <div class="d-flex flex-center mb-15">
-                        <a href="#">
-                            <img src="{% static 'assets/media/logos/logo-letter-13.png' %}" class="max-h-75px" alt="" />
-                        </a>
+
+    <div class="content-wrapper">
+        <div class="container-full">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="d-flex align-items-center">
+                <div class="me-auto">
+                    <h3 class="page-title">Добавление сотрудника</h3>
+                    <div class="d-inline-block align-items-center">
+                        <nav>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="mdi mdi-home-outline"></i></a></li>
+                                <li class="breadcrumb-item" aria-current="#">Сотрудники</li>
+                                <li class="breadcrumb-item active" aria-current="#">Добавление сотрудника</li>
+                            </ol>
+                        </nav>
                     </div>
-                    <!--end::Login Header-->
-                    <div class="container">
-                        {% for error in form.errors.birth_date %}
-                        <div class="alert border-0 alert-dismissible fade show py-2">
-                            <div class="d-flex align-items-center">
-                                <div class="font-35 text-white"><i class="bx bxs-message-square-x"></i>
-                                </div>
-                                <div class="ms-3">
-                                    <h6 class="mb-0 text-white">Ошибка!</h6>
-                                    <div class="text-white">{{ error }}</div>
-                                </div>
-                            </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        {% endfor %}
-                        {% for error in form.errors.email %}
-                        <div class="alert border-0 alert-dismissible fade show py-2">
-                                <div class="d-flex align-items-center">
-                                    <div class="font-35 text-white"><i class="bx bxs-message-square-x"></i>
-                                    </div>
-                                    <div class="ms-3">
-                                        <h6 class="mb-0 text-white">Ошибка!</h6>
-                                        <div class="text-white">{{ error }}</div>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        {% endfor %}
-                        {% for error in form.errors.username %}
-                        <div class="alert border-0 alert-dismissible fade show py-2">
-                            <div class="d-flex align-items-center">
-                                <div class="font-35 text-white"><i class="bx bxs-message-square-x"></i>
-                                </div>
-                                <div class="ms-3">
-                                    <h6 class="mb-0 text-white">Ошибка!</h6>
-                                    <div class="text-white">{{ error }}</div>
-                                </div>
-                            </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <!--begin::Login Sign up form-->
-                    <div class="login-signup">
-                        <div class="mb-20">
-                            <h3>Добавление нового сотрудника</h3>
-                            <div class="text-muted font-weight-bold">Заполните все необходимые поля</div>
-                        </div>
-                        <form class="form" method="post" action="{% url 'employee_create' %}">
-                            {% csrf_token %}
-                            <div class="form-group mb-5">
-                                {% crispy_field form.user 'class' 'form-control' 'type' 'username' 'placeholder' 'Пользователь' %}
-                            </div>
-                            <div class="form-group mb-5">
-                                {% crispy_field form.last_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Фамилия' %}
-                            </div>
-                            <div class="form-group mb-5">
-                                {% crispy_field form.first_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Имя' %}
-                            </div>
-                            <div class="form-group mb-5">
-                                {% crispy_field form.middle_name 'class' 'form-control h-auto form-control-solid py-4 px-8' 'placeholder' 'Отчество' %}
-                            </div>
-                            <div class="form-group mb-5">
-                                {% crispy_field form.birthday 'class' 'form-control' 'type' 'date' 'placeholder' 'Дата рождения' %}
-                            </div>
-                            <div class="form-group mb-5">
-                                {% crispy_field form.position 'class' 'form-control' 'type' 'date' 'placeholder' 'Должность' %}
-                            </div>
-                            <div class="form-group d-flex flex-wrap flex-center mt-10">
-                                <button type="submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-2">Создать</button>
-                            </div>
-                        </form>
-                    </div>
-                    <!--end::Login Sign up form-->
                 </div>
+
             </div>
         </div>
-        <!--end::Login-->
+
+        <!-- Main content -->
+        <section class="content">
+
+          <!-- vertical wizard -->
+          <div class="box">
+            <div class="box-header with-border">
+              <h4 class="box-title">Форма</h4>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body wizard-content">
+                <form class="form" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="" class="form-label">Пользователь :</label>
+                                {% crispy_field form.user 'class' 'form-select' 'type' 'username' %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="" class="form-label">Должность :</label>
+                                {% crispy_field form.position 'class' 'form-select' %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="" class="form-label">Статус :</label>
+                                {% crispy_field form.status 'class' 'form-select' %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="" class="form-label">Фамилия :</label>
+                            {% crispy_field form.last_name 'class' 'form-control' %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="" class="form-label">Имя :</label>
+                            {% crispy_field form.first_name 'class' 'form-control' %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="" class="form-label">Отчество :</label>
+                            {% crispy_field form.middle_name 'class' 'form-control' %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="" class="form-label">Дата рождения :</label>
+                            {% crispy_field form.birthday 'class' 'form-control' 'type' 'date' %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="" class="form-label">Оклад :</label>
+                            {% crispy_field form.salary 'class' 'form-control' %}
+                        </div>
+                    </div>
+                    <div class="form-group d-flex flex-wrap flex-center mt-10">
+                        <button type="submit" class="btn btn-info font-weight-bold float-end">Создать</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </section>
+        <!-- /.content -->
+      </div>
+    </div>
+
 {% endblock %}

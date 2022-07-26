@@ -1,7 +1,7 @@
 from django import views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from mainapp.models import Organization, BranchOffice, Department, Employee, OrganizationBankAccount
@@ -76,19 +76,37 @@ class EmployeeCreateView(views.View):
     def post(self, request, *args, **kwargs):
         form = EmployeeCreateForm(request.POST or None)
         if form.is_valid():
-            new_employee = form.save(commit=False)
-            new_employee.user = form.cleaned_data['user']
-            new_employee.first_name = form.cleaned_data['first_name']
-            new_employee.last_name = form.cleaned_data['last_name']
-            new_employee.middle_name = form.cleaned_data['middle_name']
-            new_employee.position = form.cleaned_data['position']
-            new_employee.birthday = form.cleaned_data['birthday']
-            new_employee.save()
+            form.save()
             return HttpResponseRedirect('/employees')
         context = {
             'form': form
         }
         return render(request, 'mainapp/employee_create.html', context)
+
+
+class EmployeeEditView(views.View):
+
+    def get(self, request, pk, *args, **kwargs):
+        employee = Employee.objects.get(pk=self.kwargs.get('pk'))
+        form = EmployeeCreateForm(request.POST or None, instance=employee)
+        context = {
+            'form': form,
+            'employee': employee
+        }
+        return render(request, 'mainapp/employee_edit.html', context)
+
+    def post(self, request, *args, **kwargs):
+        employee = Employee.objects.get(pk=self.kwargs.get('pk'))
+        form = EmployeeCreateForm(request.POST or None, instance=employee)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/employees')
+        context = {
+            'form': form,
+            'employee': employee
+        }
+        return render(request, 'mainapp/employee_edit.html', context)
+
 
 
 class IndexView(LoginRequiredMixin, views.View):
@@ -128,3 +146,13 @@ class EmployeeListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+class EmployeeView(views.View):
+    def get(self, request, *args, **kwargs):
+        employee = Employee.objects.get(user=request.user)
+        context = {
+            'employee': employee,
+        }
+        return render(request, 'auth/employee_create.html', context)
+
