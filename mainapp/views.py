@@ -28,7 +28,7 @@ class LoginView(views.View):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect('/employees')
 
         context = {
             'form': form
