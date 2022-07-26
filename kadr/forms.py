@@ -10,7 +10,7 @@ class EmployeeCardCreateForm(forms.ModelForm):
 
     passport_date_of_issue = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     adopted_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
-    dismissed_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
+    dismissed_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), required=False)
     digital_work_book = forms.BooleanField(initial=True, required=False, widget=forms.CheckboxInput(attrs={'type': 'checkbox'}))
     paper_work_book = forms.BooleanField(initial=False, required=False, widget=forms.CheckboxInput(attrs={'type': 'checkbox'}))
 
