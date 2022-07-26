@@ -2,7 +2,6 @@ from django.db import models
 from datetime import datetime
 from utils import image_upload_function, file_upload_function
 from mainapp.models import Employee, Position, Organization, BranchOffice
-from guide.models import Label
 
 
 class EmployeeAddress(models.Model):
@@ -73,9 +72,9 @@ class EmployeeCard(models.Model):
 
     # СВЕДЕНИЯ о РАБОТЕ и СТАЖ
     adopted_date = models.DateField(blank=True, verbose_name='Принят')
-    dismissed_date = models.DateField(blank=True, null=True, verbose_name='Дата увольнения')
-    bib_experience_before = models.IntegerField(default=0, blank=True, null=True, verbose_name='Предыдущий стаж библиотечный')
-    experience_before = models.IntegerField(default=0, blank=True, null=True, verbose_name='Предыдущий стаж полный')
+    dismissed_date = models.DateField(blank=True, verbose_name='Дата увольнения')
+    bib_experience_before = models.IntegerField(default=0, blank=True, verbose_name='Предыдущий стаж библиотечный')
+    experience_before = models.IntegerField(default=0, blank=True, verbose_name='Предыдущий стаж полный')
     digital_work_book = models.BooleanField(default=False, blank=True, verbose_name='"Электронная')
     paper_work_book = models.BooleanField(default=False, blank=True, verbose_name='Бумажная')
     paper_work_book_image = models.FileField(upload_to=file_upload_function, blank=True,
@@ -219,21 +218,6 @@ class WorkContract(models.Model):
         return f"{self.number}/{self.date} ({self.employee})"
 
 
-class PositionInstruction(models.Model):
-    date = models.DateField(verbose_name='Дата')
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, verbose_name='Организация')
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
-    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
-    file = models.FileField(upload_to=file_upload_function, verbose_name='Файл инструкций')
-
-    class Meta:
-        verbose_name = 'Должностная инструкция'
-        verbose_name_plural = 'Должностные инструкции'
-
-    def __str__(self):
-        return f"{self.number}/{self.date} ({self.employee})"
-
-
 class PersonalDataAgreement(models.Model):
     employee = models.ForeignKey(EmployeeCard, on_delete=models.CASCADE, verbose_name='Соглашение о персоналных данных')
     number = models.CharField(max_length=10, verbose_name='Номер')
@@ -246,6 +230,19 @@ class PersonalDataAgreement(models.Model):
 
     def __str__(self):
         return self.employee
+
+
+class PositionInstruction(models.Model):
+    date = models.DateField(verbose_name='Дата')
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, verbose_name='Должность')
+    file = models.FileField(upload_to=file_upload_function, verbose_name='Файл инструкций')
+
+    class Meta:
+        verbose_name = 'Должностная инструкция'
+        verbose_name_plural = 'Должностные инструкции'
+
+    def __str__(self):
+        return f"{self.date} ({self.position})"
 
 
 class CovidCertificate(models.Model):
