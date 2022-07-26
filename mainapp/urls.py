@@ -13,6 +13,7 @@ urlpatterns = [
     path('organizations/', OrganizationListView.as_view(), name='organizations-list'),
     path('employees/', EmployeeListView.as_view(), name='employees-list'),
     path('employee-create/', EmployeeCreateView.as_view(), name='employee_create'),
+    path('employee-edit/<int:pk>', EmployeeEditView.as_view(), name='employee_edit'),
 ]
 
 
