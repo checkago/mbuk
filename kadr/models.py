@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 from utils import image_upload_function, file_upload_function
 from mainapp.models import Employee, Position, Organization, BranchOffice
+from guide.models import Label
 
 
 class EmployeeAddress(models.Model):
