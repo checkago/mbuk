@@ -46,6 +46,7 @@
                                 <th>Отчество</th>
                                 <th>Дата рождения</th>
                                 <th>Должность</th>
+                                <th>Телефон</th>
                                 <th>Статус</th>
                                 <th>Действия</th>
 							</tr>
@@ -68,6 +69,7 @@
                                 <td>{{ Employee.middle_name }}</td>
                                 <td>{{ Employee.birthday }}</td>
                                 <td>{{ Employee.position }}</td>
+                                <td><strong>{{ Employee.phone }}</strong></td>
                                 <td class="text-center"><span class="label font-weight-bold label-lg bg-{{ Employee.status.color.color }} label-inline">{{ Employee.status }}</span></td>
                                 <td  class="text-center" nowrap="nowrap">
                                     <a href="{% url 'employee_edit' Employee.pk %}" type="button" class="btn btn-sm btn-warning">
@@ -85,6 +87,7 @@
                                 <th>Отчество</th>
                                 <th>Дата рождения</th>
                                 <th>Должность</th>
+                                <th>Телефон</th>
                                 <th>Статус</th>
                                 <th>Действия</th>
 							</tr>
