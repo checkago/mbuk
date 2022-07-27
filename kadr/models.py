@@ -150,8 +150,6 @@ class EmployeeCard(models.Model):
         b = experience_full_d // 1
         b_int = int(b)
         return f"{b_int} г/л., {a_int} мес."
-        return experience_full
-
 
     @property
     def experience_full_int(self):

@@ -52,24 +52,24 @@
                         {% for EmployeeCard in object_list %}
                             <tr>
                                 <td>
-                                    {% if EmployeeCard.image is empty %}
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-15 w-50 d-table font-weight-bold">
-                                            <div class="avatar rounded10 bg-{{ EmployeeCard.label.color|random }}">{{ EmployeeCard.employee.last_name|slice:":1" }}</div>
+                                    {% if EmployeeCard.image is Empty %}
+                                        <div class="d-flex align-items-center">
+                                            <div class="me-15 w-50 d-table font-weight-bold">
+                                                <div class="avatar rounded10 bg-{{ EmployeeCard.label.color }}">{{ EmployeeCard.employee.last_name|slice:":1" }}</div>
+                                            </div>
+                                            <div class="ml-3">
+                                                <a href="#" class="text-muted text-hover-primary"><span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ EmployeeCard.employee.last_name }} {{ EmployeeCard.employee.first_name }}</span> {{ EmployeeCard.employee.middle_name }}</a>
+                                            </div>
                                         </div>
-                                        <div class="ml-3">
-                                            <a href="#" class="text-muted text-hover-primary"><span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ EmployeeCard.employee.last_name }} {{ EmployeeCard.employee.first_name }}</span> {{ EmployeeCard.employee.middle_name }}</a>
-                                        </div>
-                                    </div>
                                     {% else %}
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-15 w-50 d-table">
-                                            <img src="{{ EmployeeCard.image.url }}" class="avatar avatar-lg rounded10 bg-primary-light" alt="photo">
+                                        <div class="d-flex align-items-center">
+                                            <div class="me-15 w-50 d-table">
+                                                <img src="{{ EmployeeCard.image.url }}" class="avatar avatar-lg rounded10 bg-primary-light" alt="photo">
+                                            </div>
+                                            <div class="ml-3">
+                                                <a href="#" class="text-muted text-hover-primary"><span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ EmployeeCard.employee.last_name }} {{ EmployeeCard.employee.first_name }}</span> {{ EmployeeCard.employee.middle_name }}</a>
+                                            </div>
                                         </div>
-                                        <div class="ml-3">
-                                            <a href="#" class="text-muted text-hover-primary"><span class="text-dark-75 font-weight-bold line-height-sm d-block pb-2">{{ EmployeeCard.employee.last_name }} {{ EmployeeCard.employee.first_name }}</span> {{ EmployeeCard.employee.middle_name }}</a>
-                                        </div>
-                                    </div>
                                     {% endif %}
                                 </td>
                                 <td>{{ EmployeeCard.employee.position }}</td>
