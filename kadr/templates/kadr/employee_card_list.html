@@ -77,8 +77,8 @@
                                 <td>{{ EmployeeCard.experience_current }}</td>
                                 <td>{{ EmployeeCard.bib_experience_before_all|default_if_none:"нет" }}</td>
                                 <td>{{ EmployeeCard.experience_full }}</td>
-                                <td><span class="label font-weight-bold label-lg  bg-{{ EmployeeCard.employee.status.color.color }} label-inline">{{ EmployeeCard.employee.status.name }}</span></td>
-                                <td nowrap="nowrap">
+                                <td  class="text-center"><span class="label font-weight-bold label-lg  bg-{{ EmployeeCard.employee.status.color.color }} label-inline">{{ EmployeeCard.employee.status.name }}</span></td>
+                                <td  class="text-center" nowrap="nowrap">
                                     <a href="{% url 'employeecard_edit' EmployeeCard.pk %}" type="button" class="btn btn-sm btn-warning">
                                         <i class="ti-pencil"></i>
                                     </a>
