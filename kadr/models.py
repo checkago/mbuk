@@ -73,8 +73,8 @@ class EmployeeCard(models.Model):
     # СВЕДЕНИЯ о РАБОТЕ и СТАЖ
     adopted_date = models.DateField(blank=True, verbose_name='Принят')
     dismissed_date = models.DateField(blank=True, verbose_name='Дата увольнения')
-    bib_experience_before = models.IntegerField(default=0, blank=True, verbose_name='Предыдущий стаж библиотечный')
-    experience_before = models.IntegerField(default=0, blank=True, verbose_name='Предыдущий стаж полный')
+    bib_experience_before = models.FloatField(default=0, blank=True, verbose_name='Предыдущий стаж библиотечный')
+    experience_before = models.FloatField(default=0, blank=True, verbose_name='Предыдущий стаж полный')
     digital_work_book = models.BooleanField(default=False, blank=True, verbose_name='"Электронная')
     paper_work_book = models.BooleanField(default=False, blank=True, verbose_name='Бумажная')
     paper_work_book_image = models.FileField(upload_to=file_upload_function, blank=True,
@@ -104,19 +104,58 @@ class EmployeeCard(models.Model):
 
     @property
     def experience_current(self):
-        return int((datetime.now().date() - self.adopted_date).days / 365.25)
+        experience_current_d = float((datetime.now().date() - self.adopted_date).days / 365.25)
+        a = experience_current_d % 1
+        a_float = float(a * 12)
+        a_round = round(a_float, 0)
+        a_int = int(a_round)
+        b = experience_current_d // 1
+        b_int = int(b)
+        return f"{b_int} г/л., {a_int} мес."
+
+    @property
+    def experience_current_int(self):
+        experience_current = float((datetime.now().date() - self.adopted_date).days / 365.25)
+        return experience_current
 
     @property
     def age(self):
-        return int((datetime.now().date() - self.employee.birthday).days / 365.25)
+        age = int((datetime.now().date() - self.employee.birthday).days / 365.25)
+        return age
 
     @property
     def bib_experience_before_all(self):
-        return int(self.experience_current + self.bib_experience_before)
+        bib_experience_before_all_d = float(self.experience_current_int + (self.bib_experience_before / 12))
+        a = bib_experience_before_all_d % 1
+        a_float = float(a * 12)
+        a_round = round(a_float, 0)
+        a_int = int(a_round)
+        b = bib_experience_before_all_d // 1
+        b_int = int(b)
+        return f"{b_int} г/л., {a_int} мес."
+
+    @property
+    def bib_experience_before_all_int(self):
+        bib_experience_before_all = int(self.experience_current_int + self.bib_experience_before)
+        return bib_experience_before_all
 
     @property
     def experience_full(self):
-        return int(self.experience_current + self.experience_before)
+        experience_full_d = float(self.experience_current_int + (self.experience_before / 12))
+        a = experience_full_d % 1
+        a_float = float(a * 12)
+        a_round = round(a_float, 0)
+        a_int = int(a_round)
+        b = experience_full_d // 1
+        b_int = int(b)
+        return f"{b_int} г/л., {a_int} мес."
+        return experience_full
+
+
+    @property
+    def experience_full_int(self):
+        experience_full = float(self.experience_current_int + self.experience_before)
+        return experience_full
 
     @property
     def label(self):
