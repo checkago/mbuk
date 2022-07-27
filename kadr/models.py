@@ -108,7 +108,7 @@ class EmployeeCard(models.Model):
         experience_current_d = float((datetime.now().date() - self.adopted_date).days / 365.25)
         a = experience_current_d % 1
         a_float = float(a * 12)
-        a_round = round(a_float, 0)
+        a_round = round(a_float, 0) - 1
         a_int = int(a_round)
         b = experience_current_d // 1
         b_int = int(b)
@@ -129,7 +129,7 @@ class EmployeeCard(models.Model):
         bib_experience_before_all_d = float(self.experience_current_int + (self.bib_experience_before / 12))
         a = bib_experience_before_all_d % 1
         a_float = float(a * 12)
-        a_round = round(a_float, 0)
+        a_round = round(a_float, 0) - 1
         a_int = int(a_round)
         b = bib_experience_before_all_d // 1
         b_int = int(b)
@@ -145,7 +145,7 @@ class EmployeeCard(models.Model):
         experience_full_d = float(self.experience_current_int + (self.experience_before / 12))
         a = experience_full_d % 1
         a_float = float(a * 12)
-        a_round = round(a_float, 0)
+        a_round = round(a_float, 0) - 1
         a_int = int(a_round)
         b = experience_full_d // 1
         b_int = int(b)
