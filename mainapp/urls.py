@@ -10,7 +10,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('register/', UserCreateView.as_view(), name='register'),
     path('', IndexView.as_view(), name='index'),
-    path('organizations/', OrganizationListView.as_view(), name='organizations-list'),
+    path('branch-office-list/', BranchOfficeListView.as_view(), name='branch-office-list'),
     path('employees/', EmployeeListView.as_view(), name='employees-list'),
     path('employee-create/', EmployeeCreateView.as_view(), name='employee_create'),
     path('employee-edit/<int:pk>', EmployeeEditView.as_view(), name='employee_edit'),

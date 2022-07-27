@@ -66,6 +66,7 @@ class OrganizationBankAccount(models.Model):
 
 
 class BranchOffice(models.Model):
+
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, verbose_name='Организация')
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='childs',
                                null=True, blank=True, verbose_name='Подчиняется')
