@@ -217,7 +217,7 @@ class EmployeeCard(models.Model):
 
     # СВЕДЕНИЯ о РАБОТЕ и СТАЖ
     adopted_date = models.DateField(blank=True, verbose_name='Принят')
-    dismissed_date = models.DateField(blank=True, verbose_name='Дата увольнения')
+    dismissed_date = models.DateField(blank=True, null=True, verbose_name='Дата увольнения')
     bib_experience_before = models.FloatField(default=0, blank=True, verbose_name='Предыдущий стаж библиотечный')
     experience_before = models.FloatField(default=0, blank=True, verbose_name='Предыдущий стаж полный')
     digital_work_book = models.BooleanField(default=False, blank=True, verbose_name='"Электронная')
