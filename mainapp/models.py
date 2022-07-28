@@ -1,4 +1,3 @@
-from DSEmp.employee_details import Employee
 from django.conf import settings
 from django.db import models
 from datetime import datetime
