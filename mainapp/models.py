@@ -110,6 +110,7 @@ class Department(models.Model):
 
 class Position(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование')
+    okved = models.CharField(max_length=10, blank=True, verbose_name='Код ОКВЕД')
     submission = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='childs',
                                null=True, blank=True, verbose_name='Подчиняется')
 
