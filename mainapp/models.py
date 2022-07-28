@@ -211,7 +211,7 @@ class EmployeeCard(models.Model):
                                       verbose_name='Семейное положение')
     children = models.IntegerField(blank=True, null=True, verbose_name='Несовершеннолетние дети')
     main_address = models.CharField(max_length=150, blank=True, verbose_name='Адрес регистрации')
-    inn = models.CharField(max_length=10, blank=True, verbose_name='ИНН')
+    inn = models.CharField(max_length=12, blank=True, verbose_name='ИНН')
     snils = models.CharField(max_length=11, blank=True, verbose_name='СНИЛС')
     passport_copy = models.FileField(upload_to=file_upload_function, blank=True, verbose_name='Копия паспорта')
 
